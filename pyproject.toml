@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "Linkwiz"
+version = "0.1.0"
+description = ""
+authors = ["Rin <74185220+icealtria@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pyxdg = "^0.28"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+linkwiz = "linkwiz.cli:main"

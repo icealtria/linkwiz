@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Linkwiz
+Exec=/usr/bin/linkwiz %U
+Type=Application
+MimeTypes=x-scheme-handler/http;x-scheme-handler/https;
+Categories=Network
