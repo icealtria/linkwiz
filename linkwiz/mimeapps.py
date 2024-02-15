@@ -3,7 +3,7 @@ from xdg import BaseDirectory, DesktopEntry
 import configparser
 from pathlib import Path
 
-APPNAME = ""
+APPNAME = "LinkWiz"
 MIMEAPPS_LIST_FILE = "mimeapps.list"
 DESKTOP_PATHS = [
     Path("/usr/share/applications/"),
@@ -32,7 +32,7 @@ def get_installed_browsers():
         for handler in (HTTP_HANDLER, HTTPS_HANDLER)
     ]
     browser_desktop_entries = set(handlers[0]) & set(handlers[1])
-
+    browser_desktop_entries.discard(f"{APPNAME.lower()}.desktop")
     return check_browser_valid(browser_desktop_entries)
 
 
