@@ -1,0 +1,9 @@
+[browsers]
+"Firefox Private" = "/usr/bin/firefox-developer-edition --private-window %u"
+"Brave Private" = "/usr/bin/brave --incognito %u"
+
+[rules]
+default = "Firefox Developer Edition"
+
+[rules.custom]
+"^https?://github.com/.*" = "Firefox Developer Edition"

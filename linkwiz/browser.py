@@ -5,6 +5,8 @@ from dataclasses import dataclass
 
 from xdg import BaseDirectory, DesktopEntry
 
+from linkwiz.config import custom_browsers
+
 APPNAME: str = "LinkWiz"
 MIMEAPPS_LIST_FILE: str = "mimeapps.list"
 HTTP_HANDLER: str = "x-scheme-handler/http"
@@ -45,10 +47,10 @@ def get_installed_browsers() -> Dict[str, Path]:
     ]
     browser_desktop_entries: Set[str] = set(handlers[0]) & set(handlers[1])
     browser_desktop_entries.discard(f"{APPNAME.lower()}.desktop")
-    return check_browser_valid(browser_desktop_entries)
+    return get_browser_entry(browser_desktop_entries)
 
 
-def check_browser_valid(browser_desktop_entries: Set[str]) -> Dict[str, Path]:
+def get_browser_entry(browser_desktop_entries: Set[str]) -> Dict[str, Path]:
     """Check and validate installed browsers."""
     installed_browsers: Dict[str, Path] = {}
     for path in DESKTOP_PATHS:
@@ -61,4 +63,5 @@ def check_browser_valid(browser_desktop_entries: Set[str]) -> Dict[str, Path]:
                     name: str = desktop_entry.getName()
                     execpath: str = desktop_entry.getExec()
                     installed_browsers[name] = Path(execpath)
+    installed_browsers.update(custom_browsers)
     return installed_browsers

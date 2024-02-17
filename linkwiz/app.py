@@ -2,14 +2,14 @@ import tkinter as tk
 from urllib.parse import urlparse
 from linkwiz.browser import get_installed_browsers
 from linkwiz.open import open_link
-
+from linkwiz.config import custom_browsers, custom_rules
 
 class LinkwizApp:
-    def __init__(self, url):
+    def __init__(self, browsers, url):
         self.url = url
-        self.browsers = get_installed_browsers()
+        self.browsers = browsers
         self.root = tk.Tk()
-        self.root.title("Select")
+        self.root.title("LinkWiz")
         self.root.resizable(False, False)
 
         self.buttons = []

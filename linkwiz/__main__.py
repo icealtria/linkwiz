@@ -1,7 +1,8 @@
 import sys
 from urllib.parse import urlparse
 from linkwiz.app import LinkwizApp
-
+from linkwiz.browser import get_installed_browsers
+from linkwiz.match import match_url
 
 def main():
     """Entry point of the program."""
@@ -18,7 +19,9 @@ def main():
     else:
         url_components = urlparse(arg)
         if url_components.scheme in ["http", "https"]:
-            app = LinkwizApp(arg)
+            browsers = get_installed_browsers()
+            match_url(browsers, arg)
+            app = LinkwizApp(browsers, arg)
             app.run()
         else:
             print("Invalid URL.")
