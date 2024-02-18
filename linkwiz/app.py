@@ -1,11 +1,9 @@
 import tkinter as tk
-from urllib.parse import urlparse
-from linkwiz.browser import get_installed_browsers
 from linkwiz.open import open_link
-from linkwiz.config import custom_browsers, custom_rules
+from typing import Dict
 
 class LinkwizApp:
-    def __init__(self, browsers, url):
+    def __init__(self, browsers: Dict[str, str], url: str):
         self.url = url
         self.browsers = browsers
         self.root = tk.Tk()
@@ -15,7 +13,10 @@ class LinkwizApp:
         self.buttons = []
         self._create_button()
 
-        self.root.bind("<Key>", self.on_key_pressed)
+        try:
+            self.root.bind("<Key>", self.on_key_pressed)
+        except Exception as e:
+            print(f"Error binding key event: {e}")
 
     def _create_button(self):
         for i, (browser_name, _) in enumerate(self.browsers.items()):
@@ -29,15 +30,18 @@ class LinkwizApp:
             self.buttons.append(button)
 
     def on_key_pressed(self, event):
-        if event.char.isdigit():
-            index = int(event.char) - 1
-            if 0 <= index < len(self.browsers):
-                self.open_selected_browser(index)
+        try:
+            if event.char.isdigit():
+                index = int(event.char) - 1
+                if 0 <= index < len(self.browsers):
+                    self.open_selected_browser(index)
+        except Exception as e:
+            print(f"Error processing key press event: {e}")
 
     def open_selected_browser(self, index):
         """Opens the selected browser with the given URL."""
-        selected_browser = list(self.browsers.values())[index]
         try:
+            selected_browser = list(self.browsers.values())[index]
             open_link(selected_browser, self.url)
             self.root.destroy()
         except Exception as e:

@@ -7,7 +7,7 @@ from linkwiz.match import match_url
 def main():
     """Entry point of the program."""
     if len(sys.argv) != 2:
-        print("Usage: python main.py [install | uninstall | url]")
+        print("Usage: linkwiz [install | uninstall | <url>]")
         return
 
     arg = sys.argv[1]

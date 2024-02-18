@@ -28,3 +28,4 @@ def open_link(exe: Union[Path, str], link: str) -> None:
         )
     except (FileNotFoundError, PermissionError) as e:
         print(f"Error opening link: {e}")
+    exit()
