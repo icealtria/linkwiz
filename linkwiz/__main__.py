@@ -2,7 +2,7 @@ import sys
 from urllib.parse import urlparse
 from linkwiz.app import LinkwizApp
 from linkwiz.browser import get_installed_browsers
-from linkwiz.match import match_url
+from linkwiz.match import open_link_with_matched_browser
 import logging
 
 
@@ -22,7 +22,7 @@ def main():
         ex_url = urlparse(arg)
         if ex_url.scheme in ["http", "https"]:
             browsers = get_installed_browsers()
-            match_url(browsers, ex_url.hostname)
+            open_link_with_matched_browser(browsers, ex_url.geturl(), ex_url.hostname)
             app = LinkwizApp(browsers, arg)
             app.run()
         else:

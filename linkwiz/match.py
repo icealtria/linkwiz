@@ -1,34 +1,32 @@
 import logging
 from typing import Optional
 from linkwiz.config import rules_hostname, rules_regex
-from linkwiz.open import open_link
+from linkwiz.launch import launch_browser
 import fnmatch
 import re
 
-logger = logging.getLogger(__name__)
 
-
-def get_browser_for_url(url) -> Optional[str]:
+def get_browser_for_url(hostname) -> Optional[str]:
     try:
         for pattern, browser in rules_hostname.items():
-            if fnmatch.fnmatch(pattern, url):
-                logger.info(f"Matched {url} to {browser}")
+            if fnmatch.fnmatch(pattern, hostname):
+                logging.info(f"Matched {hostname} to {browser}")
                 return browser
         for regex, browser in rules_regex.items():
-            if re.match(regex, url):
-                logger.info(f"Matched {url} to {browser}")
+            if re.match(regex, hostname):
+                logging.info(f"Matched {hostname} to {browser}")
                 return browser
     except Exception as e:
-        logger.error(f"Error matching {url} to {pattern}: {e}")
+        logging.warning(f"Error matching {hostname} to {pattern}: {e}")
     return
 
 
-def match_url(browsers, url):
-    browser = get_browser_for_url(url)
+def open_link_with_matched_browser(browsers, url, hostname):
+    browser = get_browser_for_url(hostname)
     if browser is None:
-        logger.info(f"No match for {url}")
+        logging.info(f"No match for {url}")
         return
     for name, path in browsers.items():
         if browser == name:
-            logger.info(f"Opening {url} with {name}")
-            open_link(path, url)
+            logging.info(f"Opening {url} with {name}")
+            launch_browser(path, url)
