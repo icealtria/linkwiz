@@ -21,6 +21,17 @@ class LinkwizApp:
         self.buttons = []
         self._create_widgets()
         self._bind_key_events()
+        self._center_window()
+
+    def _center_window(self):
+        """Center the window on the screen."""
+        window_width = self.root.winfo_reqwidth()
+        window_height = self.root.winfo_reqheight()
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+        x = max(0, (screen_width - window_width) // 2)
+        y = max(0, (screen_height - window_height) // 2)
+        self.root.geometry(f"+{x}+{y}")
 
     def _create_widgets(self):
         """Create widgets."""
