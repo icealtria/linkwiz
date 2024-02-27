@@ -9,6 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 pyxdg = "^0.28"
+tomlkit = "^0.12.4"
 
 
 [build-system]

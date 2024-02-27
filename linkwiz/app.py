@@ -1,10 +1,16 @@
 import tkinter as tk
+from urllib.parse import urlparse
+from linkwiz.config import config
 from linkwiz.open import open_link
 from typing import Dict
+from tkinter import ttk
+
 
 class LinkwizApp:
+
     def __init__(self, browsers: Dict[str, str], url: str):
         self.url = url
+        self.hostname = urlparse(url).hostname
         self.browsers = browsers
         self.root = tk.Tk()
         self.root.title("LinkWiz")
@@ -12,6 +18,12 @@ class LinkwizApp:
 
         self.buttons = []
         self._create_button()
+
+        self.remember = tk.BooleanVar()
+        self.remember_check = ttk.Checkbutton(
+            self.root, text="Remember", variable=self.remember
+        )
+        self.remember_check.pack()
 
         try:
             self.root.bind("<Key>", self.on_key_pressed)
@@ -41,9 +53,11 @@ class LinkwizApp:
     def open_selected_browser(self, index):
         """Opens the selected browser with the given URL."""
         try:
-            selected_browser = list(self.browsers.values())[index]
+            selected_browser_name = list(self.browsers.keys())[index]
+            selected_browser = self.browsers[selected_browser_name]
+            if self.remember.get():
+                config.add_rules(self.hostname, selected_browser_name)
             open_link(selected_browser, self.url)
-            self.root.destroy()
         except Exception as e:
             print(f"Error opening link: {e}")
 

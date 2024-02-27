@@ -5,6 +5,7 @@ from linkwiz.browser import get_installed_browsers
 from linkwiz.match import match_url
 import logging
 
+
 def main():
     """Entry point of the program."""
     if len(sys.argv) != 2:
