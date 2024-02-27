@@ -1,7 +1,7 @@
 import configparser
-from pathlib import Path
-from typing import Dict, Set
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Dict, Set, Union
 
 from xdg import BaseDirectory, DesktopEntry
 
@@ -17,7 +17,6 @@ DESKTOP_PATHS = [
     Path.home() / ".local/share/applications/",
 ]
 
-
 @dataclass
 class Browser:
     """Data class to represent a browser."""
@@ -25,18 +24,20 @@ class Browser:
     name: str
     exec_path: Path
 
-
-def get_mimeapps_list_path() -> Path:
+def get_mimeapps_list_path() -> Union[Path, None]:
     """Get the path of mimeapps.list file."""
-    return BaseDirectory.load_first_config(MIMEAPPS_LIST_FILE)
-
+    try:
+        return BaseDirectory.load_first_config(MIMEAPPS_LIST_FILE)
+    except FileNotFoundError:
+        return None
 
 def parse_mimeapps_list() -> configparser.ConfigParser:
     """Parse the mimeapps.list file."""
     config: configparser.ConfigParser = configparser.ConfigParser()
-    config.read(get_mimeapps_list_path())
+    mimeapps_list_path = get_mimeapps_list_path()
+    if mimeapps_list_path:
+        config.read(mimeapps_list_path)
     return config
-
 
 def get_installed_browsers() -> Dict[str, Path]:
     """Get a dictionary of installed browsers."""
@@ -49,13 +50,12 @@ def get_installed_browsers() -> Dict[str, Path]:
     browser_desktop_entries.discard(f"{APPNAME.lower()}.desktop")
     return get_browser_entry(browser_desktop_entries)
 
-
 def get_browser_entry(browser_desktop_entries: Set[str]) -> Dict[str, Path]:
     """Check and validate browsers in the mimeapps.list file."""
     installed_browsers: Dict[str, Path] = {}
     for path in DESKTOP_PATHS:
         if path.exists():
-            for entry in path.iterdir():
+            for entry in path.glob("*.desktop"):
                 if entry.name in browser_desktop_entries:
                     desktop_entry: DesktopEntry.DesktopEntry = (
                         DesktopEntry.DesktopEntry(str(entry))

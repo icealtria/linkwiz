@@ -15,16 +15,14 @@ def exec_field_to_cmds(exe: Union[Path, str], link: str) -> List[str]:
     >>> exec_field_to_cmds("firefox", "https://example.com")
     ['firefox', 'https://example.com']
     """
-    if isinstance(exe, Path):
-        exe_str = exe.as_posix()
-    elif isinstance(exe, str):
-        exe_str = exe
-    else:
-        raise TypeError("Executable field must be a string or a Path object.")
+    assert isinstance(exe, (Path, str)), "exe must be Path or str"
+    exe_str = str(exe) if isinstance(exe, Path) else exe
 
-    if "%u" not in exe_str and "%U" not in exe_str:
-        exe_str = f"{exe_str} {link}"
-    return exe_str.replace("%u", link).replace("%U", link).split()
+    cmd = exe_str.replace("%u", link).replace("%U", link)
+    if link not in cmd:
+        cmd += f" {link}"
+
+    return cmd.split()
 
 
 def launch_browser(exe: Union[Path, str], link: str) -> None:

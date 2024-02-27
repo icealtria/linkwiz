@@ -6,31 +6,29 @@ from typing import Dict
 from tkinter import ttk
 import logging
 
+
 class LinkwizApp:
 
     def __init__(self, browsers: Dict[str, str], url: str):
         self.url = url
         self.hostname = urlparse(url).hostname
         self.browsers = browsers
+
         self.root = tk.Tk()
         self.root.title("LinkWiz")
         self.root.resizable(False, False)
 
         self.buttons = []
-        self._create_button()
+        self._create_widgets()
+        self._bind_key_events()
 
-        self.remember = tk.BooleanVar()
-        self.remember_check = ttk.Checkbutton(
-            self.root, text="Remember", variable=self.remember
-        )
-        self.remember_check.pack()
+    def _create_widgets(self):
+        """Create widgets."""
+        self._create_buttons()
+        self._create_remember_check()
 
-        try:
-            self.root.bind("<Key>", self.on_key_pressed)
-        except Exception as e:
-            logging.error(f"Error binding key press: {e}")
-
-    def _create_button(self):
+    def _create_buttons(self):
+        """Create buttons for each browser."""
         for i, (browser_name, _) in enumerate(self.browsers.items()):
             button_text = f"{i+1}. {browser_name}"
             button = tk.Button(
@@ -41,13 +39,29 @@ class LinkwizApp:
             button.pack(fill=tk.X)
             self.buttons.append(button)
 
-    def on_key_pressed(self, event):
+    def _create_remember_check(self):
+        """Create 'Remember' checkbox."""
+        self.remember = tk.BooleanVar()
+        self.remember_check = ttk.Checkbutton(
+            self.root, text="Remember", variable=self.remember
+        )
+        self.remember_check.pack()
+
+    def _bind_key_events(self):
+        """Bind key press events."""
+        try:
+            self.root.bind("<Key>", self.on_key_pressed)
+        except Exception as e:
+            logging.error(f"Error binding key press: {e}")
+
+    def on_key_pressed(self, event: tk.Event) -> None:
+        """Handle key press events."""
         try:
             if event.char.isdigit():
                 index = int(event.char) - 1
                 if 0 <= index < len(self.browsers):
                     self.open_selected_browser(index)
-            elif event.char.lower() == 'r':
+            elif event.char.lower() == "r":
                 self.remember.set(not self.remember.get())
         except Exception as e:
             logging.error(f"Error handling key press: {e}")
@@ -64,4 +78,5 @@ class LinkwizApp:
             logging.error(f"Error opening browser: {e}")
 
     def run(self):
+        """Run the application."""
         self.root.mainloop()
