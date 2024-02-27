@@ -74,6 +74,8 @@ class LinkwizApp:
                     self.open_selected_browser(index)
             elif event.char.lower() == "r":
                 self.remember.set(not self.remember.get())
+            elif event.char.lower() == "q" or event.char == "\x1b":
+                self.root.destroy()
         except Exception as e:
             logging.error(f"Error handling key press: {e}")
 
