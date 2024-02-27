@@ -5,6 +5,7 @@ description = "LinkWiz is a Linux tool that lets users select their preferred br
 authors = ["Rin <icealtria+github@gmail.com>"]
 license = "GPL-2.0-only"
 readme = "README.md"
+repository = "https://github.com/icealtria/linkwiz"
 
 [tool.poetry.dependencies]
 python = "^3.11"
