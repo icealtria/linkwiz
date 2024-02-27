@@ -3,7 +3,7 @@ name = "Linkwiz"
 version = "0.1.0"
 description = ""
 authors = ["Rin <74185220+icealtria@users.noreply.github.com>"]
-license = "MIT"
+license = "GPLv2"
 readme = "README.md"
 
 [tool.poetry.dependencies]
