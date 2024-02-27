@@ -51,7 +51,7 @@ def get_installed_browsers() -> Dict[str, Path]:
 
 
 def get_browser_entry(browser_desktop_entries: Set[str]) -> Dict[str, Path]:
-    """Check and validate installed browsers."""
+    """Check and validate browsers in the mimeapps.list file."""
     installed_browsers: Dict[str, Path] = {}
     for path in DESKTOP_PATHS:
         if path.exists():

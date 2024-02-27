@@ -3,6 +3,7 @@ from urllib.parse import urlparse
 from linkwiz.app import LinkwizApp
 from linkwiz.browser import get_installed_browsers
 from linkwiz.match import match_url
+import logging
 
 def main():
     """Entry point of the program."""
@@ -17,14 +18,14 @@ def main():
     elif arg == "uninstall":
         print("Uninstalling...")
     else:
-        url_components = urlparse(arg)
-        if url_components.scheme in ["http", "https"]:
+        ex_url = urlparse(arg)
+        if ex_url.scheme in ["http", "https"]:
             browsers = get_installed_browsers()
-            match_url(browsers, arg)
+            match_url(browsers, ex_url.hostname)
             app = LinkwizApp(browsers, arg)
             app.run()
         else:
-            print("Invalid URL.")
+            logging.error("Invalid URL.")
 
 
 if __name__ == "__main__":
