@@ -1,67 +1,49 @@
-import configparser
-from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Set, Union
-
-from xdg import BaseDirectory, DesktopEntry
-
+import subprocess
+from typing import Dict, List
+from xdg import DesktopEntry
 from linkwiz.config import custom_browsers
 
 APPNAME: str = "LinkWiz"
-MIMEAPPS_LIST_FILE: str = "mimeapps.list"
 HTTP_HANDLER: str = "x-scheme-handler/http"
-HTTPS_HANDLER: str = "x-scheme-handler/https"
 
 DESKTOP_PATHS = [
     Path("/usr/share/applications/"),
     Path.home() / ".local/share/applications/",
 ]
 
-@dataclass
-class Browser:
-    """Data class to represent a browser."""
-
-    name: str
-    exec_path: Path
-
-def get_mimeapps_list_path() -> Union[Path, None]:
-    """Get the path of mimeapps.list file."""
-    try:
-        return BaseDirectory.load_first_config(MIMEAPPS_LIST_FILE)
-    except FileNotFoundError:
-        return None
-
-def parse_mimeapps_list() -> configparser.ConfigParser:
-    """Parse the mimeapps.list file."""
-    config: configparser.ConfigParser = configparser.ConfigParser()
-    mimeapps_list_path = get_mimeapps_list_path()
-    if mimeapps_list_path:
-        config.read(mimeapps_list_path)
-    return config
 
 def get_installed_browsers() -> Dict[str, Path]:
-    """Get a dictionary of installed browsers."""
-    config: configparser.ConfigParser = parse_mimeapps_list()
-    handlers = [
-        config["Added Associations"].get(handler, "").split(";")
-        for handler in (HTTP_HANDLER, HTTPS_HANDLER)
-    ]
-    browser_desktop_entries: Set[str] = set(handlers[0]) & set(handlers[1])
-    browser_desktop_entries.discard(f"{APPNAME.lower()}.desktop")
-    return get_browser_entry(browser_desktop_entries)
+    """Get the name and exec path of installed browsers."""
+    try:
+        output = subprocess.check_output(["gio", "mime", HTTP_HANDLER], text=True)
 
-def get_browser_entry(browser_desktop_entries: Set[str]) -> Dict[str, Path]:
-    """Check and validate browsers in the mimeapps.list file."""
+        installed_browsers = (
+            output.split("Recommended applications:")[-1].strip().split("\n")
+        )
+        installed_browsers = [app.strip() for app in installed_browsers]
+
+        installed_browsers.remove(f"{APPNAME.lower()}.desktop")
+
+        return get_browser_exec(installed_browsers)
+    except subprocess.CalledProcessError:
+        raise ("Error: Unable to retrieve installed browsers.")
+
+
+def get_browser_exec(browsers_desktop: List[str]) -> Dict[str, Path]:
+    """Get the exec path of installed browsers."""
     installed_browsers: Dict[str, Path] = {}
     for path in DESKTOP_PATHS:
-        if path.exists():
-            for entry in path.glob("*.desktop"):
-                if entry.name in browser_desktop_entries:
-                    desktop_entry: DesktopEntry.DesktopEntry = (
-                        DesktopEntry.DesktopEntry(str(entry))
-                    )
-                    name: str = desktop_entry.getName()
-                    execpath: str = desktop_entry.getExec()
-                    installed_browsers[name] = Path(execpath)
+        if not path.exists():
+            continue
+        for entry in path.glob("*.desktop"):
+            if entry.name not in browsers_desktop:
+                continue
+            desktop_entry = DesktopEntry.DesktopEntry(str(entry))
+            name: str = desktop_entry.getName()
+            execpath: str = desktop_entry.getExec()
+            installed_browsers[name] = Path(execpath)
+
     installed_browsers.update(custom_browsers)
+
     return installed_browsers

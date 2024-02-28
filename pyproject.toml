@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "linkwiz"
-version = "0.1.1"
+version = "0.1.2"
 description = "LinkWiz is a Linux tool that lets users select their preferred browser for opening links."
 authors = ["Rin <icealtria+github@gmail.com>"]
 license = "GPL-2.0-only"
