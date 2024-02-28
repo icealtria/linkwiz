@@ -1,7 +1,6 @@
 import logging
 from typing import Optional
 from linkwiz.config import rules_hostname, rules_regex
-from linkwiz.launch import launch_browser
 import fnmatch
 import re
 
@@ -21,7 +20,7 @@ def get_browser_for_url(hostname) -> Optional[str]:
     return
 
 
-def open_link_with_matched_browser(browsers, url, hostname):
+def find_matching_browser(browsers, url, hostname):
     browser = get_browser_for_url(hostname)
     if browser is None:
         logging.info(f"No match for {url}")
@@ -29,4 +28,4 @@ def open_link_with_matched_browser(browsers, url, hostname):
     for name, path in browsers.items():
         if browser == name:
             logging.info(f"Opening {url} with {name}")
-            launch_browser(path, url)
+            return path, url

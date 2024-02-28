@@ -1,13 +1,12 @@
 import tkinter as tk
 from urllib.parse import urlparse
 from linkwiz.config import config
-from linkwiz.launch import launch_browser
 from typing import Dict
 from tkinter import ttk
 import logging
 
 
-class LinkwizApp:
+class LinkwizGUI:
 
     def __init__(self, browsers: Dict[str, str], url: str):
         self.url = url
@@ -45,7 +44,7 @@ class LinkwizApp:
             button = tk.Button(
                 self.root,
                 text=button_text,
-                command=lambda idx=i: self.open_selected_browser(idx),
+                command=lambda idx=i: self.get_launch_cmd(idx),
             )
             button.pack(fill=tk.X)
             self.buttons.append(button)
@@ -71,7 +70,7 @@ class LinkwizApp:
             if event.char.isdigit():
                 index = int(event.char) - 1
                 if 0 <= index < len(self.browsers):
-                    self.open_selected_browser(index)
+                    self.get_launch_cmd(index)
             elif event.char.lower() == "r":
                 self.remember.set(not self.remember.get())
             elif event.char.lower() == "q" or event.char == "\x1b":
@@ -79,17 +78,20 @@ class LinkwizApp:
         except Exception as e:
             logging.error(f"Error handling key press: {e}")
 
-    def open_selected_browser(self, index):
+    def get_launch_cmd(self, index):
         """Opens the selected browser with the given URL."""
         try:
             selected_browser_name = list(self.browsers.keys())[index]
             selected_browser = self.browsers[selected_browser_name]
             if self.remember.get():
                 config.add_rules(self.hostname, selected_browser_name)
-            launch_browser(selected_browser, self.url)
+            # launch_browser(selected_browser, self.url)
+            self.result = selected_browser, self.url
+            self.root.destroy()
         except Exception as e:
             logging.error(f"Error opening browser: {e}")
 
     def run(self):
         """Run the application."""
         self.root.mainloop()
+        return self.result

@@ -1,9 +1,5 @@
 import sys
-from urllib.parse import urlparse
-from linkwiz.app import LinkwizApp
-from linkwiz.browser import get_installed_browsers
-from linkwiz.match import open_link_with_matched_browser
-import logging
+from linkwiz.core import process_url
 
 
 def main():
@@ -19,14 +15,7 @@ def main():
     elif arg == "uninstall":
         print("Uninstalling...")
     else:
-        url_components = urlparse(arg)
-        if url_components.scheme in ["http", "https"]:
-            browsers = get_installed_browsers()
-            open_link_with_matched_browser(browsers, url_components.geturl(), url_components.hostname)
-            app = LinkwizApp(browsers, arg)
-            app.run()
-        else:
-            logging.error("Invalid URL.")
+        process_url(arg)
 
 
 if __name__ == "__main__":
