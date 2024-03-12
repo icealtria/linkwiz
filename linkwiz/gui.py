@@ -10,7 +10,7 @@ class LinkwizGUI:
 
     def __init__(self, browsers: Dict[str, str], url: str):
         self.url = url
-        self.hostname = urlparse(url).hostname
+        self.hostname = urlparse(url).netloc
         self.browsers = browsers
 
         self.root = tk.Tk()

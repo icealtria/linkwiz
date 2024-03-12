@@ -17,7 +17,7 @@ def process_url(url):
 
     try:
         launch_browser_command = find_matching_browser(
-            browsers, parsed_url.geturl(), parsed_url.hostname
+            browsers, parsed_url.geturl(), parsed_url.netloc
         )
         if launch_browser_command:
             launch_browser(*launch_browser_command)
