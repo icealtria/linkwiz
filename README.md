@@ -2,6 +2,12 @@
 
 LinkWiz is a Linux tool that lets users select their preferred browser for opening links.
 
+## Installation
+For Arch
+```
+paru -S linkwiz
+```
+
 ## Configuration
 
 You can configure LinkWiz by modifying the `linkwiz.toml` file, which is created in the `~/.config/linkwiz.toml` on the first run. You can add rules to specify which browser to use for specific domains.
@@ -14,6 +20,7 @@ Example `linkwiz.toml`:
 
 [rules]
 [rules.regex]
+".+\\.cn$" = "Brave Private"
 
 [rules.hostname]
 "example.com" = "Brave Private"
