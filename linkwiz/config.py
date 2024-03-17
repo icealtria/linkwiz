@@ -8,7 +8,7 @@ from xdg import BaseDirectory
 class Config:
     def __init__(self, config_path: str = None):
         self.config_path = config_path or os.path.join(
-            BaseDirectory.xdg_config_home, "linkwiz.toml"
+            BaseDirectory.xdg_config_home, "linkwiz", "linkwiz.toml"
         )
         self._config = self._load_config()
 
@@ -16,6 +16,10 @@ class Config:
         """
         Load the configuration file, creating a new one with defaults if it doesn't exist.
         """
+        config_dir = os.path.dirname(self.config_path)
+        if not os.path.exists(config_dir):
+            os.makedirs(config_dir)
+
         if os.path.exists(self.config_path):
             with open(self.config_path, "r") as f:
                 return parse(f.read())
@@ -23,6 +27,7 @@ class Config:
             config = TOMLDocument()
             config.add("browsers", {})
             config.add("rules", {"regex": {}, "hostname": {}})
+            config.add("features", {"remove_track": True})
             with open(self.config_path, "w") as f:
                 f.write(dumps(config))
             return config
@@ -74,6 +79,13 @@ class Config:
         """
         return self.rules.get("hostname", {})
 
+    @property
+    def features(self) -> Dict:
+        """
+        Get the features from the configuration.
+        """
+        return self._config.get("features", {})
+
 
 config = Config()
 
@@ -81,3 +93,4 @@ custom_browsers = config.browsers
 rules = config.rules
 rules_regex = config.rules_regex
 rules_hostname = config.rules_hostname
+features = config.features
