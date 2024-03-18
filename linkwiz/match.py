@@ -8,7 +8,7 @@ import re
 def get_browser_for_url(hostname) -> Optional[str]:
     try:
         for pattern, browser in rules_hostname.items():
-            if fnmatch.fnmatch(pattern, hostname):
+            if fnmatch.fnmatch(hostname, pattern):
                 logging.info(f"Matched {hostname} to {browser}")
                 return browser
         for regex, browser in rules_regex.items():
