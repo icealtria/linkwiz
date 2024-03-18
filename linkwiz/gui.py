@@ -16,6 +16,11 @@ class LinkwizGUI:
         self.root = tk.Tk()
         self.root.title("LinkWiz")
         self.root.resizable(False, False)
+        self.root.wm_minsize(width=200, height=0)
+        self.root.configure(bg="white")
+
+        self.frame = tk.Frame(self.root, bg="white")
+        self.frame.pack(pady=5)
 
         self.buttons = []
         self._create_widgets()
@@ -41,21 +46,22 @@ class LinkwizGUI:
         """Create buttons for each browser."""
         for i, (browser_name, _) in enumerate(self.browsers.items()):
             button_text = f"{i+1}. {browser_name}"
-            button = tk.Button(
-                self.root,
+            button = CustomButton(
+                self.frame,
                 text=button_text,
                 command=lambda idx=i: self.get_launch_cmd(idx),
+                anchor="w",
             )
-            button.pack(fill=tk.X)
+            button.pack(fill=tk.X, padx=10, pady=5)
             self.buttons.append(button)
 
     def _create_remember_check(self):
         """Create 'Remember' checkbox."""
         self.remember = tk.BooleanVar()
-        self.remember_check = ttk.Checkbutton(
+        self.remember_check = CustomCheckbutton(
             self.root, text="Remember", variable=self.remember
         )
-        self.remember_check.pack()
+        self.remember_check.pack(anchor=tk.W, padx=10)
 
     def _bind_key_events(self):
         """Bind key press events."""
@@ -95,3 +101,28 @@ class LinkwizGUI:
         """Run the application."""
         self.root.mainloop()
         return self.result
+
+
+class CustomButton(tk.Button):
+    def __init__(self, master=None, **kwargs):
+        super().__init__(master, **kwargs)
+        self.config(
+            bg="white",
+            fg="black",
+            bd=2,
+            relief="solid",
+            activeforeground="black",
+            padx=10,
+            pady=5,
+            cursor="hand2",
+        )
+
+
+class CustomCheckbutton(tk.Checkbutton):
+    def __init__(self, master=None, **kwargs):
+        super().__init__(master, **kwargs)
+        self.config(
+            bg="white",
+            cursor="hand2",
+            indicatoron=20,
+        )
