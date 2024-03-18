@@ -10,7 +10,7 @@ repository = "https://github.com/icealtria/linkwiz"
 [tool.poetry.dependencies]
 python = "^3.11"
 pyxdg = "^0.28"
-tomlkit = "^0.12.4"
+tomli-w = "^1.0.0"
 
 
 [build-system]

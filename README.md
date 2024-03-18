@@ -7,10 +7,10 @@ For Arch
 ```
 paru -S linkwiz
 ```
-
+Set LinkWiz as default browser
 ## Configuration
 
-You can configure LinkWiz by modifying the `linkwiz.toml` file, which is created in the `~/.config/linkwiz.toml` on the first run. You can add rules to specify which browser to use for specific domains.
+You can configure LinkWiz by modifying the `linkwiz.toml` file, which is created in the `~/.config/linkwiz/linkwiz.toml` on the first run. You can add rules to specify which browser to use for specific domains.
 
 Example `linkwiz.toml`:
 ```toml
@@ -25,5 +25,6 @@ Example `linkwiz.toml`:
 [rules.hostname]
 "example.com" = "Brave Private"
 "github.com" = "Firefox Developer Edition"
-"*.google.com" = "Google Chrome"
+"*.google.com" = "Google Chrome" # This will not match "google.com"
+"google.com" = "Google Chrome"
 ```

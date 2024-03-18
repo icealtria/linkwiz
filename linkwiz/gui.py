@@ -2,7 +2,6 @@ import tkinter as tk
 from urllib.parse import urlparse
 from linkwiz.config import config
 from typing import Dict
-from tkinter import ttk
 import logging
 
 
@@ -86,16 +85,12 @@ class LinkwizGUI:
 
     def get_launch_cmd(self, index):
         """Opens the selected browser with the given URL."""
-        try:
-            selected_browser_name = list(self.browsers.keys())[index]
-            selected_browser = self.browsers[selected_browser_name]
-            if self.remember.get():
-                config.add_rules(self.hostname, selected_browser_name)
-            # launch_browser(selected_browser, self.url)
-            self.result = selected_browser, self.url
-            self.root.destroy()
-        except Exception as e:
-            logging.error(f"Error opening browser: {e}")
+        selected_browser_name = list(self.browsers.keys())[index]
+        selected_browser = self.browsers[selected_browser_name]
+        if self.remember.get():
+            config.add_rules(self.hostname, selected_browser_name)
+        self.result = selected_browser, self.url
+        self.root.destroy()
 
     def run(self):
         """Run the application."""

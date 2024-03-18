@@ -1,8 +1,8 @@
 import os
 from typing import Dict
-from tomlkit import parse, dumps
-from tomlkit.toml_document import TOMLDocument
+import tomllib
 from xdg import BaseDirectory
+import tomli_w
 
 
 class Config:
@@ -12,7 +12,7 @@ class Config:
         )
         self._config = self._load_config()
 
-    def _load_config(self) -> TOMLDocument:
+    def _load_config(self) -> Dict:
         """
         Load the configuration file, creating a new one with defaults if it doesn't exist.
         """
@@ -21,30 +21,30 @@ class Config:
             os.makedirs(config_dir)
 
         if os.path.exists(self.config_path):
-            with open(self.config_path, "r") as f:
-                return parse(f.read())
+            with open(self.config_path, "rb") as f:
+                return tomllib.load(f)
         else:
-            config = TOMLDocument()
-            config.add("browsers", {})
-            config.add("rules", {"regex": {}, "hostname": {}})
-            config.add("features", {"remove_track": True})
-            with open(self.config_path, "w") as f:
-                f.write(dumps(config))
+            config = {
+                "browsers": {},
+                "rules": {"regex": {}, "hostname": {}},
+                "features": {"remove_track": True},
+            }
+            self.save_config()
             return config
 
     def save_config(self):
         """
         Save the configuration file.
         """
-        with open(self.config_path, "w") as f:
-            f.write(dumps(self._config))
+        with open(self.config_path, "wb") as f:
+            tomli_w.dump(self._config, f)
 
     def add_rules(self, hostname: str, browser_name: str):
         """
         Add rules to the configuration file.
         """
         if "rules" not in self._config:
-            self._config.add("rules", {"regex": {}, "hostname": {}})
+            self._config["rules"] = {"regex": {}, "hostname": {}}
         rules = self._config["rules"]
         if "hostname" not in rules:
             rules["hostname"] = {}
@@ -88,7 +88,6 @@ class Config:
 
 
 config = Config()
-
 custom_browsers = config.browsers
 rules = config.rules
 rules_regex = config.rules_regex
