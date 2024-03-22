@@ -2,6 +2,8 @@
 
 LinkWiz is a Linux tool that lets users select their preferred browser for opening links.
 
+![Screenshot](https://raw.githubusercontent.com/icealtria/linkwiz/assets/Screenshot.webp)
+
 ## Installation
 For Arch
 ```
