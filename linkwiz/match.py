@@ -1,20 +1,16 @@
 import logging
 from typing import Optional
-from linkwiz.config import rules_hostname, rules_regex
+from linkwiz.config import config
 import fnmatch
-import re
 
 
 def get_browser_for_url(hostname) -> Optional[str]:
     try:
-        for pattern, browser in rules_hostname.items():
+        for pattern, browser in config.rules_fnmatch.items():
             if fnmatch.fnmatch(hostname, pattern):
                 logging.info(f"Matched {hostname} to {browser}")
                 return browser
-        for regex, browser in rules_regex.items():
-            if re.match(regex, hostname):
-                logging.info(f"Matched {hostname} to {browser}")
-                return browser
+        return config.rules_hostname.get(hostname, None)
     except Exception as e:
         logging.warning(f"Error matching {hostname} to {pattern}: {e}")
     return

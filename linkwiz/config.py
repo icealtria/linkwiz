@@ -26,7 +26,7 @@ class Config:
         else:
             config = {
                 "browsers": {},
-                "rules": {"regex": {}, "hostname": {}},
+                "rules": {"fnmatch": {}, "hostname": {}},
                 "features": {"remove_track": True},
             }
             self.save_config()
@@ -44,7 +44,7 @@ class Config:
         Add rules to the configuration file.
         """
         if "rules" not in self._config:
-            self._config["rules"] = {"regex": {}, "hostname": {}}
+            self._config["rules"] = {"regex": {}, "fnmatch": {}, "hostname": {}}
         rules = self._config["rules"]
         if "hostname" not in rules:
             rules["hostname"] = {}
@@ -66,11 +66,11 @@ class Config:
         return self._config.get("rules", {})
 
     @property
-    def rules_regex(self) -> Dict:
+    def rules_fnmatch(self) -> Dict:
         """
-        Get the regex rules from the configuration.
+        Get the fnmatch rules from the configuration.
         """
-        return self.rules.get("regex", {})
+        return self.rules.get("fnmatch", {})
 
     @property
     def rules_hostname(self) -> Dict:
@@ -88,8 +88,3 @@ class Config:
 
 
 config = Config()
-custom_browsers = config.browsers
-rules = config.rules
-rules_regex = config.rules_regex
-rules_hostname = config.rules_hostname
-features = config.features

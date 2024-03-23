@@ -2,7 +2,7 @@ from pathlib import Path
 import subprocess
 from typing import Dict, List
 from xdg import DesktopEntry
-from linkwiz.config import custom_browsers
+from linkwiz.config import config
 
 APPNAME: str = "LinkWiz"
 HTTP_HANDLER: str = "x-scheme-handler/http"
@@ -44,6 +44,6 @@ def get_browser_exec(browsers_desktop: List[str]) -> Dict[str, Path]:
             execpath: str = desktop_entry.getExec()
             installed_browsers[name] = Path(execpath)
 
-    installed_browsers.update(custom_browsers)
+    installed_browsers.update(config.browsers)
 
     return installed_browsers

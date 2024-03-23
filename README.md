@@ -20,13 +20,12 @@ Example `linkwiz.toml`:
 "Firefox Private" = "/usr/bin/firefox-developer-edition --private-window"
 "Brave Private" = "/usr/bin/brave --incognito"
 
-[rules]
-[rules.regex]
-".+\\.cn$" = "Brave Private"
+[rules.fnmatch]
+"*.cn" = "Brave Private"
+"*.google.com" = "Google Chrome" # This will not match "google.com"
 
 [rules.hostname]
 "example.com" = "Brave Private"
 "github.com" = "Firefox Developer Edition"
-"*.google.com" = "Google Chrome" # This will not match "google.com"
 "google.com" = "Google Chrome"
 ```

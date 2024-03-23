@@ -5,7 +5,7 @@ from linkwiz.browser import get_installed_browsers
 from linkwiz.match import find_matching_browser
 from linkwiz.gui import LinkwizGUI
 from linkwiz.launch import launch_browser
-from linkwiz.config import features
+from linkwiz.config import config
 
 
 def process_url(url):
@@ -15,7 +15,7 @@ def process_url(url):
     if parsed_url.scheme not in ("http", "https"):
         raise ValueError("Invalid URL.")
 
-    if features.get("remove_track", False):
+    if config.features.get("remove_track", False):
         url = remove_tracking(url)
 
     browsers = get_installed_browsers()
