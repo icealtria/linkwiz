@@ -22,7 +22,18 @@ files = [
     {file = "tomli_w-1.0.0.tar.gz", hash = "sha256:f463434305e0336248cac9c2dc8076b707d8a12d019dd349f5c1e382dd1ae1b9"},
 ]
 
+[[package]]
+name = "unalix-rev"
+version = "0.9"
+description = "Small, dependency-free, fast Python package for removing tracking fields from URLs."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "unalix_rev-0.9-py3-none-any.whl", hash = "sha256:2859adde700f2d888bd2b81b1829268ec6ad1b9c95988aa12a56731133f41a46"},
+    {file = "unalix_rev-0.9.tar.gz", hash = "sha256:a5c70ae6a260b151a7733188359fb4d991d6ad38b8a7aaf0587b2ac921a4fbe1"},
+]
+
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "075bedce719945f431ae157a61f625f72480abb00fe702e680f7f1677a9e14ae"
+content-hash = "db5ab8616fb2842babfa39b8018bc4e23cb61d4f2b62f5e2b9e3aa10c1e77335"
