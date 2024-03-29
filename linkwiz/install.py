@@ -3,14 +3,15 @@ from pathlib import Path
 import subprocess
 import shlex
 
-DESKTOP_PATH = Path(BaseDirectory.xdg_data_home) / "applications" / "linkwiz.desktop"
+DESKTOP_FILENAME = "linkwiz.desktop"
+DESKTOP_PATH = Path(BaseDirectory.xdg_data_home) / "applications" / DESKTOP_FILENAME
 
 
 def install(script_path: str):
     create_linkwiz_desktop_entry(script_path)
     mime_types = ["x-scheme-handler/http", "x-scheme-handler/https"]
     for mime_type in mime_types:
-        set_default_app_for_mime_type(DESKTOP_PATH, mime_type)
+        set_default_app_for_mime_type(mime_type)
     print("Installed")
 
 
@@ -25,8 +26,8 @@ def create_linkwiz_desktop_entry(script_path: str):
     desktop.write()
 
 
-def set_default_app_for_mime_type(desktop_path: str, mime_type: str):
-    cmd = ["xdg-mime", "default", desktop_path]
+def set_default_app_for_mime_type(mime_type: str):
+    cmd = ["xdg-mime", "default", DESKTOP_FILENAME, mime_type]
     mime_type_quoted = shlex.quote(mime_type)
     subprocess.run(cmd + [mime_type_quoted], check=True)
 
