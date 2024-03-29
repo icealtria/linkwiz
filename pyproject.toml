@@ -11,7 +11,7 @@ repository = "https://github.com/icealtria/linkwiz"
 python = "^3.11"
 pyxdg = "^0.28"
 tomli-w = "^1.0.0"
-unalix-rev = "^0.9"
+unalix-rev = "^0.9.1"
 
 [build-system]
 requires = ["poetry-core"]

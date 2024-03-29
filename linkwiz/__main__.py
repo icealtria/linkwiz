@@ -1,6 +1,6 @@
 import sys
 from linkwiz.core import process_url
-
+from linkwiz.install import install, uninstall
 
 def main():
     """Entry point of the program."""
@@ -11,9 +11,9 @@ def main():
     arg = sys.argv[1]
 
     if arg == "install":
-        print("Installing...")
+        install(sys.argv[0])
     elif arg == "uninstall":
-        print("Uninstalling...")
+        uninstall()
     else:
         process_url(arg)
 

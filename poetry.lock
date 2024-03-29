@@ -24,16 +24,16 @@ files = [
 
 [[package]]
 name = "unalix-rev"
-version = "0.9"
+version = "0.9.1"
 description = "Small, dependency-free, fast Python package for removing tracking fields from URLs."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "unalix_rev-0.9-py3-none-any.whl", hash = "sha256:2859adde700f2d888bd2b81b1829268ec6ad1b9c95988aa12a56731133f41a46"},
-    {file = "unalix_rev-0.9.tar.gz", hash = "sha256:a5c70ae6a260b151a7733188359fb4d991d6ad38b8a7aaf0587b2ac921a4fbe1"},
+    {file = "unalix_rev-0.9.1-py3-none-any.whl", hash = "sha256:feb7c9ff79d0e4d37d2f8121b992a5b82a5f9d9426fff973b4c267280e8244aa"},
+    {file = "unalix_rev-0.9.1.tar.gz", hash = "sha256:0907cffeab8b98b8857369d6ff5f636f4d3cb40d3fab7da6c8c0cb09c550f213"},
 ]
 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "db5ab8616fb2842babfa39b8018bc4e23cb61d4f2b62f5e2b9e3aa10c1e77335"
+content-hash = "4c4d1b46452be7cf22077c72356e840f7ee11518ecbb10823456959d48994c14"
