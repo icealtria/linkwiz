@@ -5,10 +5,16 @@ LinkWiz is a Linux tool that lets users select their preferred browser for openi
 ![Screenshot](https://raw.githubusercontent.com/icealtria/linkwiz/assets/Screenshot.webp)
 
 ## Installation
-For Arch
+### Arch
 ```
 paru -S linkwiz
 ```
+### pipx
+```
+pipx install linkwiz
+linkwiz install
+```
+
 Set LinkWiz as default browser
 ## Configuration
 
