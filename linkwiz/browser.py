@@ -13,17 +13,21 @@ DESKTOP_PATHS = [
 ]
 
 
-def get_installed_browsers() -> Dict[str, Path]:
-    """Get the name and exec path of installed browsers."""
+def get_browsers() -> Dict[str, Path]:
+    """Get the name and exec path of browsers."""
     try:
-        output = subprocess.check_output(["gio", "mime", HTTP_HANDLER], text=True)
+        installed_browsers = []
+        if config.main.get("auto_find_browsers", True):
+            output = subprocess.check_output(["gio", "mime", HTTP_HANDLER], text=True)
+            installed_browsers = (
+                output.split("Recommended applications:")[-1].strip().split("\n")
+            )
+            installed_browsers = [app.strip() for app in installed_browsers]
 
-        installed_browsers = (
-            output.split("Recommended applications:")[-1].strip().split("\n")
-        )
-        installed_browsers = [app.strip() for app in installed_browsers]
+            own_desktop = f"{APPNAME.lower()}.desktop"
 
-        installed_browsers.remove(f"{APPNAME.lower()}.desktop")
+            if own_desktop in installed_browsers:
+                installed_browsers.remove(own_desktop)
 
         return get_browser_exec(installed_browsers)
     except subprocess.CalledProcessError:

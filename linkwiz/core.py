@@ -1,12 +1,12 @@
 from urllib.parse import urlparse
 import logging
 
-from linkwiz.browser import get_installed_browsers
+from linkwiz.browser import get_browsers
 from linkwiz.match import find_matching_browser
 from linkwiz.gui import LinkwizGUI
 from linkwiz.launch import launch_browser
 from linkwiz.config import config
-import unalix
+
 
 def process_url(url):
     """Process the provided URL."""
@@ -17,7 +17,7 @@ def process_url(url):
 
     if config.features.get("remove_track", False):
         url = remove_tracking(url)
-    browsers = get_installed_browsers()
+    browsers = get_browsers()
 
     try:
         launch_browser_command = find_matching_browser(
@@ -37,4 +37,6 @@ def process_url(url):
 
 def remove_tracking(url):
     """Remove tracking parameters from the URL."""
+    import unalix
+
     return unalix.clear_url(url=url)

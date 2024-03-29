@@ -25,9 +25,10 @@ class Config:
                 return tomllib.load(f)
         else:
             config = {
+                "main": {"auto_find_browsers": True},
                 "browsers": {},
                 "rules": {"fnmatch": {}, "hostname": {}},
-                "features": {"remove_track": True},
+                "features": {"remove_track": False},
             }
             self.save_config()
             return config
@@ -50,6 +51,13 @@ class Config:
             rules["hostname"] = {}
         rules["hostname"][hostname] = browser_name
         self.save_config()
+
+    @property
+    def main(self) -> Dict:
+        """
+        Get the main section from the configuration.
+        """
+        return self._config.get("main", {})
 
     @property
     def browsers(self) -> Dict:
