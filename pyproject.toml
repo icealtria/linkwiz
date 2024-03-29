@@ -1,11 +1,15 @@
 [tool.poetry]
 name = "linkwiz"
-version = "0.2.0"
+version = "0.2.1"
 description = "LinkWiz is a Linux tool that lets users select their preferred browser for opening links."
 authors = ["Rin <icealtria+github@gmail.com>"]
 license = "GPL-2.0-only"
 readme = "README.md"
 repository = "https://github.com/icealtria/linkwiz"
+classifiers = [
+    "Operating System :: POSIX :: Linux",
+    "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+]
 
 [tool.poetry.dependencies]
 python = "^3.11"
