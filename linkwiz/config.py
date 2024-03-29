@@ -30,7 +30,8 @@ class Config:
                 "rules": {"fnmatch": {}, "hostname": {}},
                 "features": {"remove_track": False},
             }
-            self.save_config()
+            with open(self.config_path, "wb") as f:
+                tomli_w.dump(config, f)
             return config
 
     def save_config(self):
