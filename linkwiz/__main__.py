@@ -1,9 +1,15 @@
+import platform
 import sys
-from linkwiz.core import process_url
 from linkwiz.install import install, uninstall
+
 
 def main():
     """Entry point of the program."""
+
+    if platform.system() != "Linux":
+        print("LinkWiz is only supported on Linux.")
+        return
+
     if len(sys.argv) != 2:
         print("Usage: linkwiz [install | uninstall | <url>]")
         return
@@ -15,6 +21,8 @@ def main():
     elif arg == "uninstall":
         uninstall()
     else:
+        from linkwiz.core import process_url
+
         process_url(arg)
 
 
