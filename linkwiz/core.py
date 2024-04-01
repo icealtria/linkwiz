@@ -37,6 +37,9 @@ def process_url(url):
 
 def remove_tracking(url):
     """Remove tracking parameters from the URL."""
-    import unalix
-
-    return unalix.clear_url(url=url)
+    try:
+        import unalix
+        return unalix.clear_url(url=url)
+    except ImportError:
+        logging.warning("The 'unalix' package is not installed. Cannot remove tracking parameters.")
+        return url
