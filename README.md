@@ -35,3 +35,5 @@ Example `linkwiz.toml`:
 "github.com" = "Firefox Developer Edition"
 "google.com" = "Google Chrome"
 ```
+## TODO
+- [ ] RIIR
