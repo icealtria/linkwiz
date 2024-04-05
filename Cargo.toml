@@ -1,0 +1,11 @@
+[package]
+name = "linkwiz"
+version = "0.3.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+toml = "0.8.12"
+url = "2.5.0"
+xdg = "2.5.2"
