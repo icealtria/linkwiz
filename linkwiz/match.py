@@ -13,7 +13,6 @@ def get_browser_for_url(hostname) -> Optional[str]:
         return config.rules_hostname.get(hostname, None)
     except Exception as e:
         logging.warning(f"Error matching {hostname} to {pattern}: {e}")
-    return
 
 
 def find_matching_browser(browsers, url, hostname):

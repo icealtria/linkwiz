@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 import subprocess
 from typing import Dict, List
@@ -31,7 +32,8 @@ def get_browsers() -> Dict[str, Path]:
 
         return get_browser_exec(installed_browsers)
     except subprocess.CalledProcessError:
-        raise ("Error: Unable to retrieve installed browsers.")
+        logging.error("Error getting installed browsers")
+        exit(1)
 
 
 def get_browser_exec(browsers_desktop: List[str]) -> Dict[str, Path]:
