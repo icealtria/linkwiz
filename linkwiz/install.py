@@ -24,17 +24,23 @@ def create_linkwiz_desktop_entry(script_path: str):
     desktop.set("NoDisplay", "true")
     desktop.set("Exec", script_path + " %u")
     desktop.write()
+    update_desktop_database()
 
 
 def set_default_app_for_mime_type(mime_type: str):
     cmd = ["xdg-mime", "default", DESKTOP_FILENAME, mime_type]
     mime_type_quoted = shlex.quote(mime_type)
-    subprocess.run(cmd + [mime_type_quoted], check=True)
+    subprocess.run(cmd + [mime_type_quoted], check=True).check_returncode()
 
 
 def uninstall():
     if DESKTOP_PATH.exists():
         DESKTOP_PATH.unlink()
+        update_desktop_database()
         print("Uninstalled")
     else:
         print("linkwiz is not installed.")
+
+
+def update_desktop_database():
+    subprocess.run(["update-desktop-database", Path(BaseDirectory.xdg_data_home) / "applications"]).check_returncode()
