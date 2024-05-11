@@ -5,12 +5,17 @@ from typing import Dict, List
 from xdg import DesktopEntry
 from linkwiz.config import config
 
-APPNAME: str = "LinkWiz"
+SELF_DESKTOP: str = "linkwiz.desktop"
 HTTP_HANDLER: str = "x-scheme-handler/http"
 
 DESKTOP_PATHS = [
     Path("/usr/share/applications/"),
     Path.home() / ".local/share/applications/",
+]
+
+MIMEINFO_PATHS = [
+    Path("/usr/share/applications/mimeinfo.cache"),
+    Path.home() / ".local/share/applications/mimeinfo.cache",
 ]
 
 
@@ -19,26 +24,37 @@ def get_browsers() -> Dict[str, Path]:
     try:
         installed_browsers = []
         if config.main.get("auto_find_browsers", True):
-            output = subprocess.check_output(["gio", "mime", HTTP_HANDLER], text=True)
-            installed_browsers = (
-                output.split("Recommended applications:")[-1].strip().split("\n")
-            )
-            installed_browsers = [app.strip() for app in installed_browsers]
+            installed_browsers = find_installed_browsers()
 
-            own_desktop = f"{APPNAME.lower()}.desktop"
+        browsers = get_browser_exec(installed_browsers)
+        browsers.update(config.browsers)
 
-            if own_desktop in installed_browsers:
-                installed_browsers.remove(own_desktop)
-
-        return get_browser_exec(installed_browsers)
+        return browsers
     except subprocess.CalledProcessError:
         logging.error("Error getting installed browsers")
         exit(1)
 
 
+def find_installed_browsers() -> List[str]:
+    """Get the name of installed browsers."""
+    installed_browsers = set()
+    for path in MIMEINFO_PATHS:
+        if not path.exists():
+            continue
+        with open(path, "r") as f:
+            for line in f:
+                if not line.startswith(HTTP_HANDLER):
+                    continue
+                browsers = line.split("=")[-1].strip().split(";")
+                installed_browsers.update(browsers)
+                break
+    installed_browsers.discard(SELF_DESKTOP)
+    return list(installed_browsers)
+
+
 def get_browser_exec(browsers_desktop: List[str]) -> Dict[str, Path]:
     """Get the exec path of installed browsers."""
-    installed_browsers: Dict[str, Path] = {}
+    browsers_exec: Dict[str, Path] = {}
     for path in DESKTOP_PATHS:
         if not path.exists():
             continue
@@ -48,8 +64,5 @@ def get_browser_exec(browsers_desktop: List[str]) -> Dict[str, Path]:
             desktop_entry = DesktopEntry.DesktopEntry(str(entry))
             name: str = desktop_entry.getName()
             execpath: str = desktop_entry.getExec()
-            installed_browsers[name] = Path(execpath)
-
-    installed_browsers.update(config.browsers)
-
-    return installed_browsers
+            browsers_exec[name] = Path(execpath)
+    return browsers_exec
