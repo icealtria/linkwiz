@@ -1,25 +1,32 @@
-[tool.poetry]
+[tool.pdm.build]
+includes = []
+
+[project]
+# PEP 621 project metadata
+# See https://www.python.org/dev/peps/pep-0621/
+authors = [{ name = "Rin", email = "icealtria+github@gmail.com" }]
+license = { text = "GPL-2.0-only" }
+requires-python = "<4.0,>=3.11"
+dependencies = [
+    "pyxdg<1.0,>=0.28",
+    "tomli-w<2.0.0,>=1.0.0",
+    "unalix-rev<1.0.0,>=0.9.1",
+]
 name = "linkwiz"
 version = "0.2.4"
 description = "LinkWiz is a Linux tool that lets users select their preferred browser for opening links."
-authors = ["Rin <icealtria+github@gmail.com>"]
-license = "GPL-2.0-only"
 readme = "README.md"
-repository = "https://github.com/icealtria/linkwiz"
 classifiers = [
     "Operating System :: POSIX :: Linux",
     "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
 ]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-pyxdg = "^0.28"
-tomli-w = "^1.0.0"
-unalix-rev = "^0.9.1"
+[project.urls]
+repository = "https://github.com/icealtria/linkwiz"
+
+[project.scripts]
+linkwiz = "linkwiz.__main__:main"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.scripts]
-linkwiz = "linkwiz.__main__:main"
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
