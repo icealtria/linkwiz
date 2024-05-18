@@ -13,7 +13,7 @@ dependencies = [
     "unalix-rev<1.0.0,>=0.9.1",
 ]
 name = "linkwiz"
-version = "0.2.6"
+version = "0.2.7"
 description = "LinkWiz is a Linux tool that lets users select their preferred browser for opening links."
 readme = "README.md"
 classifiers = [
