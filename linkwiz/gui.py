@@ -65,6 +65,7 @@ class LinkwizGUI:
 
     def _center_window(self):
         """Center the window on the screen."""
+        self.root.update_idletasks()
         window_width = self.root.winfo_reqwidth()
         window_height = self.root.winfo_reqheight()
         screen_width = self.root.winfo_screenwidth()
