@@ -1,5 +1,6 @@
 import tkinter as tk
 from urllib.parse import urlparse
+from linkwiz.browser import BrowserExecs
 from linkwiz.config import config
 from typing import Dict
 import logging
@@ -32,7 +33,6 @@ class ToolTip:
             background="#ffffe0",
             relief="solid",
             borderwidth=1,
-            font=("tahoma", "8", "normal"),
         )
         label.pack(ipadx=1)
 
@@ -44,7 +44,7 @@ class ToolTip:
 
 
 class LinkwizGUI:
-    def __init__(self, browsers: Dict[str, str], url: str):
+    def __init__(self, browsers: BrowserExecs, url: str):
         self.url = url
         self.hostname = urlparse(url).netloc
         self.browsers = browsers

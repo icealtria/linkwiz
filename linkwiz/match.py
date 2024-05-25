@@ -1,5 +1,6 @@
 import logging
 from typing import Optional
+from linkwiz.browser import BrowserExecs
 from linkwiz.config import config
 import fnmatch
 
@@ -12,10 +13,9 @@ def get_browser_for_url(hostname) -> Optional[str]:
                 return browser
         return config.rules_hostname.get(hostname, None)
     except Exception as e:
-        logging.warning(f"Error matching {hostname} to {pattern}: {e}")
+        logging.warning(f"Error matching {hostname}: {e}")
 
-
-def find_matching_browser(browsers, url, hostname):
+def find_matching_browser(browsers: BrowserExecs, url, hostname):
     browser = get_browser_for_url(hostname)
     if browser is None:
         logging.info(f"No match for {url}")

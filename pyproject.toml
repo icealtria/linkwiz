@@ -6,14 +6,14 @@ includes = []
 # See https://www.python.org/dev/peps/pep-0621/
 authors = [{ name = "Rin", email = "icealtria+github@gmail.com" }]
 license = { text = "GPL-2.0-only" }
-requires-python = "<4.0,>=3.11"
+requires-python = "<4.0,>=3.12"
 dependencies = [
     "pyxdg<1.0,>=0.28",
     "tomli-w<2.0.0,>=1.0.0",
     "unalix-rev<1.0.0,>=0.9.1",
 ]
 name = "linkwiz"
-version = "0.2.7"
+version = "0.2.8"
 description = "LinkWiz is a Linux tool that lets users select their preferred browser for opening links."
 readme = "README.md"
 classifiers = [

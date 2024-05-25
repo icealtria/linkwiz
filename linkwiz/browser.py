@@ -8,25 +8,27 @@ from linkwiz.config import config
 SELF_DESKTOP: str = "linkwiz.desktop"
 HTTP_HANDLER: str = "x-scheme-handler/http"
 
-DESKTOP_PATHS = [
+DESKTOP_PATHS: List[Path] = [
     Path("/usr/share/applications/"),
     Path.home() / ".local/share/applications/",
 ]
 
-MIMEINFO_PATHS = [
+MIMEINFO_PATHS: List[Path] = [
     Path("/usr/share/applications/mimeinfo.cache"),
     Path.home() / ".local/share/applications/mimeinfo.cache",
 ]
 
+BrowserExecs = Dict[str, Path]
 
-def get_browsers() -> Dict[str, Path]:
+
+def get_browsers() -> BrowserExecs:
     """Get the name and exec path of browsers."""
     try:
-        installed_browsers = []
+        installed_browsers: List[str] = []
         if config.main.get("auto_find_browsers", True):
             installed_browsers = find_installed_browsers()
 
-        browsers = get_browser_exec(installed_browsers)
+        browsers: BrowserExecs = get_browser_exec(installed_browsers)
         browsers.update(config.browsers)
 
         return browsers
@@ -37,7 +39,7 @@ def get_browsers() -> Dict[str, Path]:
 
 def find_installed_browsers() -> List[str]:
     """Get the name of installed browsers."""
-    installed_browsers = set()
+    installed_browsers: set[str] = set()
     for path in MIMEINFO_PATHS:
         if not path.exists():
             continue
@@ -45,16 +47,16 @@ def find_installed_browsers() -> List[str]:
             for line in f:
                 if not line.startswith(HTTP_HANDLER):
                     continue
-                browsers = line.split("=")[-1].strip().split(";")
+                browsers: List[str] = line.split("=")[-1].strip().split(";")
                 installed_browsers.update(browsers)
                 break
     installed_browsers.discard(SELF_DESKTOP)
     return list(installed_browsers)
 
 
-def get_browser_exec(browsers_desktop: List[str]) -> Dict[str, Path]:
+def get_browser_exec(browsers_desktop: List[str]) -> BrowserExecs:
     """Get the exec path of installed browsers."""
-    browsers_exec: Dict[str, Path] = {}
+    browsers_exec: BrowserExecs = {}
     for path in DESKTOP_PATHS:
         if not path.exists():
             continue
