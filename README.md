@@ -37,3 +37,4 @@ Example `linkwiz.toml`:
 ```
 ## TODO
 - [ ] RIIR
+- [ ] Windows Support

@@ -1,9 +1,9 @@
 import tkinter as tk
 from urllib.parse import urlparse
-from linkwiz.browser import BrowserExecs
 from linkwiz.config import config
-from typing import Dict
 import logging
+
+from linkwiz.types import BrowserExecs
 
 
 class ToolTip:

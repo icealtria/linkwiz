@@ -1,7 +1,6 @@
 from urllib.parse import urlparse
 import logging
-
-from linkwiz.browser import get_browsers
+from linkwiz.linux_browsers import get_browsers
 from linkwiz.match import find_matching_browser
 from linkwiz.gui import LinkwizGUI
 from linkwiz.launch import launch_browser
@@ -39,7 +38,10 @@ def remove_tracking(url):
     """Remove tracking parameters from the URL."""
     try:
         import unalix
+
         return unalix.clear_url(url=url)
     except ImportError:
-        logging.warning("The 'unalix' package is not installed. Cannot remove tracking parameters.")
+        logging.warning(
+            "The 'unalix' package is not installed. Cannot remove tracking parameters."
+        )
         return url

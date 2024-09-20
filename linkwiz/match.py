@@ -1,6 +1,6 @@
 import logging
 from typing import Optional
-from linkwiz.browser import BrowserExecs
+from linkwiz.types import BrowserExecs
 from linkwiz.config import config
 import fnmatch
 
