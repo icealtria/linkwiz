@@ -36,5 +36,5 @@ Example `linkwiz.toml`:
 "google.com" = "Google Chrome"
 ```
 ## TODO
-- [ ] RIIR
 - [ ] Windows Support
+- [ ] RIIR

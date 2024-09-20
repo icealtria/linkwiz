@@ -1,9 +1,10 @@
 import logging
 from pathlib import Path
 import subprocess
-from typing import Dict, List
+from typing import List
 from xdg import DesktopEntry
 from linkwiz.config import config
+from linkwiz.types import BrowserExecs
 
 SELF_DESKTOP: str = "linkwiz.desktop"
 HTTP_HANDLER: str = "x-scheme-handler/http"
@@ -18,8 +19,6 @@ MIMEINFO_PATHS: List[Path] = [
     Path.home() / ".local/share/applications/mimeinfo.cache",
 ]
 
-BrowserExecs = Dict[str, Path]
-
 
 def get_browsers() -> BrowserExecs:
     """Get the name and exec path of browsers."""
@@ -29,8 +28,6 @@ def get_browsers() -> BrowserExecs:
             installed_browsers = find_installed_browsers()
 
         browsers: BrowserExecs = get_browser_exec(installed_browsers)
-        browsers.update(config.browsers)
-
         return browsers
     except subprocess.CalledProcessError:
         logging.error("Error getting installed browsers")

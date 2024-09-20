@@ -6,8 +6,8 @@ from linkwiz.install import install, uninstall
 def main():
     """Entry point of the program."""
 
-    if platform.system() != "Linux":
-        print("LinkWiz is only supported on Linux.")
+    if platform.system() != "Linux" and platform.system() != "Windows":
+        print("Platform not supported")
         return
 
     if len(sys.argv) != 2:

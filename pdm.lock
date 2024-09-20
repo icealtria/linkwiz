@@ -4,8 +4,11 @@
 [metadata]
 groups = ["default"]
 strategy = ["cross_platform", "inherit_metadata"]
-lock_version = "4.4.1"
-content_hash = "sha256:9ca040374c1b587ed384af21335155e8513235efd913b04228f8951e291551f9"
+lock_version = "4.5.0"
+content_hash = "sha256:8601e3b6dd1530735e7945043b3e5a7e7f978a3f9fd2d4d34b695e178ac3f93b"
+
+[[metadata.targets]]
+requires_python = "~=3.12"
 
 [[package]]
 name = "pyxdg"

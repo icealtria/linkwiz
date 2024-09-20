@@ -1,6 +1,6 @@
 from urllib.parse import urlparse
 import logging
-from linkwiz.linux_browsers import get_browsers
+from linkwiz.browsers import get_browsers
 from linkwiz.match import find_matching_browser
 from linkwiz.gui import LinkwizGUI
 from linkwiz.launch import launch_browser
@@ -17,7 +17,6 @@ def process_url(url):
     if config.features.get("remove_track", False):
         url = remove_tracking(url)
     browsers = get_browsers()
-
     try:
         launch_browser_command = find_matching_browser(
             browsers, parsed_url.geturl(), parsed_url.netloc
