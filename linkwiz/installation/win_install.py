@@ -1,8 +1,11 @@
 import subprocess
-import winreg as reg
 import ctypes
 
 from linkwiz.types import APP_NAME
+import platform
+
+if platform.system() == "Windows":
+    import winreg as reg
 
 
 PROTOCOLS = ["http", "https"]

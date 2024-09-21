@@ -13,7 +13,7 @@ dependencies = [
     "unalix-rev<1.0.0,>=0.9.1",
 ]
 name = "linkwiz"
-version = "0.3.0"
+version = "0.3.1"
 description = "LinkWiz is a Linux tool that lets users select their preferred browser for opening links."
 readme = "README.md"
 classifiers = [
@@ -25,7 +25,7 @@ classifiers = [
 [project.urls]
 repository = "https://github.com/icealtria/linkwiz"
 
-[project.scripts]
+[project.gui-scripts]
 linkwiz = "linkwiz.__main__:main"
 
 [build-system]
