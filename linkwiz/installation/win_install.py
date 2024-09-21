@@ -1,6 +1,5 @@
 import subprocess
 import winreg as reg
-import sys
 import ctypes
 
 from linkwiz.types import APP_NAME

@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 from typing import Optional
 from linkwiz.types import BrowserExecs
 from linkwiz.config import config
@@ -15,7 +16,8 @@ def get_browser_for_url(hostname) -> Optional[str]:
     except Exception as e:
         logging.warning(f"Error matching {hostname}: {e}")
 
-def find_matching_browser(browsers: BrowserExecs, url, hostname):
+
+def find_matching_browser(browsers: BrowserExecs, url, hostname) -> tuple[Path, str]:
     browser = get_browser_for_url(hostname)
     if browser is None:
         logging.info(f"No match for {url}")
