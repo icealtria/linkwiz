@@ -25,6 +25,9 @@ Example `linkwiz.toml`:
 [browsers] # Custom Browsers
 "Firefox Private" = "/usr/bin/firefox-developer-edition --private-window"
 "Brave Private" = "/usr/bin/brave --incognito"
+# Windows
+"Firefox Private" = 'C:\Program Files\Firefox Developer Edition\private_browsing.exe'
+"Brave Private" = 'C:\Users\<user>\AppData\Local\BraveSoftware\Brave-Browser\Application\brave.exe --incognito'
 
 [rules.fnmatch]
 "*.cn" = "Brave Private"
@@ -36,5 +39,5 @@ Example `linkwiz.toml`:
 "google.com" = "Google Chrome"
 ```
 ## TODO
-- [ ] Windows Support
+- [x] Windows Support
 - [ ] RIIR
