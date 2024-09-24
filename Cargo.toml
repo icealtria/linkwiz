@@ -1,0 +1,11 @@
+[package]
+name = "linkwiz-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+url = "2.5.2"
+serde = { version = "1.0.210", features = ["derive"] }
+dirs = "5.0.1"
+toml = "0.8.19"
+winreg = "0.52.0"
