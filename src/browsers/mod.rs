@@ -1,4 +1,6 @@
 use std::path::PathBuf;
+
+#[derive(Clone)]
 pub struct Browser {
     pub name: String,
     pub exec: PathBuf,

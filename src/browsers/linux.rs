@@ -22,6 +22,10 @@ pub fn get_browsers() -> Vec<Browser> {
     }
 }
 
+fn sanitize_exec_path(exec_path: String) -> String {
+    exec_path.replace("%u", "").replace("%U", "")
+}
+
 fn find_installed_browsers() -> Result<Vec<String>, std::io::Error> {
     let mut installed_browsers: Vec<String> = Vec::new();
 
@@ -110,7 +114,7 @@ fn parse_desktop_entry(path: &Path) -> Option<Browser> {
 
     Some(Browser {
         name,
-        exec: PathBuf::from(exec),
+        exec: PathBuf::from(sanitize_exec_path(exec)),
     })
 }
 
