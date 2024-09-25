@@ -9,6 +9,8 @@ serde = { version = "1.0.210", features = ["derive"] }
 dirs = "5.0.1"
 toml = "0.8.19"
 wildmatch = "2.3.4"
+egui = "0.28.1"
+eframe = "0.28.1"
 [target.'cfg(windows)'.dependencies]
 winreg = "0.52.0"
 

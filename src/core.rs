@@ -1,5 +1,4 @@
 use crate::{browsers, config::Config, matching};
-use std::process::{exit, Command, Stdio};
 use url::Url;
 
 pub fn process_url(url: &str) {
@@ -9,7 +8,7 @@ pub fn process_url(url: &str) {
         panic!("Invalid URL scheme.");
     }
 
-    let config = Config::new();
+    let mut config = Config::new();
 
     let browsers = browsers::get_browsers();
 
@@ -17,28 +16,16 @@ pub fn process_url(url: &str) {
 
     match matching::match_hostname(&browsers, &hostname, &config.rules) {
         Some(browser) => {
-            println!(
-                "Opening {} in browser: {}",
-                parsed_url.as_str(),
-                browser.name
-            );
-
-            let exec_path = browser.exec.to_str().unwrap();
-
-            let trimmed_exec = exec_path.trim();
-
-            match Command::new(trimmed_exec)
-                .arg(parsed_url.as_str())
-                .stdout(Stdio::null())
-                .stderr(Stdio::null())
-                .spawn()
-            {
-                Ok(_) => exit(0),
-                Err(e) => eprintln!("Failed to execute command: {}", e),
-            }
+            crate::launch::open_url_in_browser(&parsed_url.to_string(), &browser);
         }
         None => {
-            println!("No matching browser found for the URL.");
+            let choice = crate::gui::open_with_selector(browsers, parsed_url.clone());
+            if let Some(choice) = choice {
+                if choice.is_remember {
+                    config.add_rules(hostname.to_string(), choice.browser.name.clone());
+                }
+                crate::launch::open_url_in_browser(&parsed_url.to_string(), &choice.browser);
+            }
         }
     }
 }

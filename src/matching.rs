@@ -1,7 +1,11 @@
 use crate::{browsers::Browser, config::RulesConfig};
 use wildmatch::WildMatch;
 
-pub fn match_hostname(browsers: &Vec<Browser>, hostname: &str, config: &RulesConfig) -> Option<Browser> {
+pub fn match_hostname(
+    browsers: &Vec<Browser>,
+    hostname: &str,
+    config: &RulesConfig,
+) -> Option<Browser> {
     let fnmatch_browser = config.fnmatch.iter().find_map(|(pattern, browser)| {
         if WildMatch::new(pattern).matches(hostname) {
             Some(browser)
@@ -27,7 +31,6 @@ mod tests {
 
     #[test]
     fn test_match_url() {
-        // Define a list of browsers for testing
         let browsers = vec![
             Browser {
                 name: "Firefox".to_string(),
@@ -39,7 +42,6 @@ mod tests {
             },
         ];
 
-        // Set up the rules configuration with hostname patterns
         let config = RulesConfig {
             hostname: HashMap::new(),
             fnmatch: HashMap::from([
@@ -48,19 +50,17 @@ mod tests {
             ]),
         };
 
-        // Test hostnames to match
         let hostnames = ["www.example.com", "189.cn"];
 
-        // Expected results for each hostname
         let expected_results = [Some("Firefox".to_string()), Some("Chrome".to_string())];
 
-        // Perform the URL matching
         let results: Vec<Option<String>> = hostnames
             .iter()
-            .map(|&hostname| match_hostname(&browsers, hostname, &config).map(|browser| browser.name))
+            .map(|&hostname| {
+                match_hostname(&browsers, hostname, &config).map(|browser| browser.name)
+            })
             .collect();
 
-        // Assert that the results match the expected outcomes
         assert_eq!(results, expected_results);
     }
 }
