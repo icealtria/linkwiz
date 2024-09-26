@@ -1,3 +1,4 @@
+#![windows_subsystem = "windows"]
 use linkwiz_rs;
 use std::env;
 
