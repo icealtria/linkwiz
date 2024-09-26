@@ -1,7 +1,9 @@
-use std::os::windows::process::CommandExt;
 use std::process::{Command, Stdio};
 
 use crate::browsers::Browser;
+
+#[cfg(target_os = "windows")]
+use std::os::windows::process::CommandExt;
 
 pub fn open_url_in_browser(url: &str, browser: &Browser) {
     let exec_path = browser.exec.to_str().unwrap();
@@ -9,7 +11,8 @@ pub fn open_url_in_browser(url: &str, browser: &Browser) {
 
     let has_additional_args = trimmed_exec.contains(' ');
 
-    let _ = if cfg!(target_os = "windows") {
+    #[cfg(target_os = "windows")]
+    {
         if has_additional_args {
             Command::new("cmd")
                 .creation_flags(0x08000000)
@@ -19,6 +22,7 @@ pub fn open_url_in_browser(url: &str, browser: &Browser) {
                 .stdout(Stdio::null())
                 .stderr(Stdio::null())
                 .spawn()
+                .expect("Failed to open URL in browser");
         } else {
             Command::new(trimmed_exec)
                 .creation_flags(0x08000000)
@@ -26,8 +30,12 @@ pub fn open_url_in_browser(url: &str, browser: &Browser) {
                 .stdout(Stdio::null())
                 .stderr(Stdio::null())
                 .spawn()
+                .expect("Failed to open URL in browser");
         }
-    } else {
+    }
+
+    #[cfg(target_os = "linux")]
+    {
         if has_additional_args {
             Command::new("sh")
                 .arg("-c")
@@ -35,12 +43,14 @@ pub fn open_url_in_browser(url: &str, browser: &Browser) {
                 .stdout(Stdio::null())
                 .stderr(Stdio::null())
                 .spawn()
+                .expect("Failed to open URL in browser");
         } else {
             Command::new(trimmed_exec)
                 .arg(url)
                 .stdout(Stdio::null())
                 .stderr(Stdio::null())
                 .spawn()
+                .expect("Failed to open URL in browser");
         }
-    };
+    }
 }
