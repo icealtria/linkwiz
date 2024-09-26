@@ -32,7 +32,7 @@ DisableProgramGroupPage=yes
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=admin
 OutputBaseFilename=linkwiz setup
-Compression=lzma
+Compression=lzma/ultra
 SolidCompression=yes
 WizardStyle=modern
 
@@ -48,15 +48,15 @@ Root: HKA; Subkey: "Software\Classes\Linkwiz\shell"; Flags: uninsdeletekeyifempt
 Root: HKA; Subkey: "Software\Classes\Linkwiz\shell\open"; Flags: uninsdeletekeyifempty
 Root: HKA; Subkey: "Software\Classes\Linkwiz\shell\open\command"; Flags: uninsdeletekeyifempty
 Root: HKA; Subkey: "Software\Classes\Linkwiz\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\linkwiz-rs.exe"" url ""%1"""; Flags: uninsdeletevalue
-Root: HKCU; Subkey: "Software\Linkwiz"; Flags: uninsdeletekeyifempty
-Root: HKCU; Subkey: "Software\Linkwiz\Capabilities"; Flags: uninsdeletekeyifempty
-Root: HKCU; Subkey: "Software\Linkwiz\Capabilities\URLAssociations"; Flags: uninsdeletekeyifempty
-Root: HKCU; Subkey: "Software\Linkwiz\Capabilities\URLAssociations"; ValueType: string; ValueName: "http"; ValueData: "Linkwiz"; Flags: uninsdeletevalue
-Root: HKCU; Subkey: "Software\Linkwiz\Capabilities\URLAssociations"; ValueType: string; ValueName: "https"; ValueData: "Linkwiz"; Flags: uninsdeletevalue
-Root: HKCU; Subkey: "Software\Linkwiz\shell"; Flags: uninsdeletekeyifempty
-Root: HKCU; Subkey: "Software\Linkwiz\shell\open"; Flags: uninsdeletekeyifempty
-Root: HKCU; Subkey: "Software\Linkwiz\shell\open"; ValueType: string; ValueData: """{app}\linkwiz-rs.exe"""; Flags: uninsdeletevalue
-Root: HKCU; Subkey: "Software\RegisteredApplications"; ValueType: string; ValueName: "Linkwiz"; ValueData: "Software\Linkwiz\Capabilities"; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "Software\Linkwiz"; Flags: uninsdeletekeyifempty
+Root: HKLM; Subkey: "Software\Linkwiz\Capabilities"; Flags: uninsdeletekeyifempty
+Root: HKLM; Subkey: "Software\Linkwiz\Capabilities\URLAssociations"; Flags: uninsdeletekeyifempty
+Root: HKLM; Subkey: "Software\Linkwiz\Capabilities\URLAssociations"; ValueType: string; ValueName: "http"; ValueData: "Linkwiz"; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "Software\Linkwiz\Capabilities\URLAssociations"; ValueType: string; ValueName: "https"; ValueData: "Linkwiz"; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "Software\Linkwiz\shell"; Flags: uninsdeletekeyifempty
+Root: HKLM; Subkey: "Software\Linkwiz\shell\open"; Flags: uninsdeletekeyifempty
+Root: HKLM; Subkey: "Software\Linkwiz\shell\open"; ValueType: string; ValueData: """{app}\linkwiz-rs.exe"""; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "Software\RegisteredApplications"; ValueType: string; ValueName: "Linkwiz"; ValueData: "Software\Linkwiz\Capabilities"; Flags: uninsdeletevalue
 
 [Icons]
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
