@@ -1,4 +1,8 @@
-use crate::{browsers, config::Config, matching};
+use crate::{
+    browsers::{self, Browser},
+    config::Config,
+    matching,
+};
 use url::Url;
 
 pub fn process_url(url: &str) {
@@ -10,7 +14,18 @@ pub fn process_url(url: &str) {
 
     let mut config = Config::new();
 
-    let browsers = browsers::get_browsers();
+    let mut browsers = browsers::get_browsers();
+
+    let conf_browsers = config
+        .browsers
+        .iter()
+        .map(|(name, exec)| Browser {
+            name: name.clone(),
+            exec: exec.clone().into(),
+        })
+        .collect::<Vec<Browser>>();
+
+    browsers.extend(conf_browsers);
 
     let hostname = parsed_url.host_str().expect("Invalid URL.");
 
