@@ -8,7 +8,7 @@ pub fn show_selector(browsers: Vec<Browser>, url: Url, tx: Sender<Choice>) {
     let mut browsers = browsers;
     browsers.sort_by(|a, b| a.name.to_lowercase().cmp(&b.name.to_lowercase()));
 
-    let window_height = (20 + browsers.len() * 36 + 20) as f32;
+    let window_height = (browsers.len() * 30 + (browsers.len() + 2) * 3 + 50) as f32;
 
     let options = eframe::NativeOptions {
         viewport: eframe::egui::ViewportBuilder::default()
@@ -97,6 +97,15 @@ impl eframe::App for BrowserSelectorApp {
                 ui.ctx().send_viewport_cmd(egui::ViewportCommand::Close);
             }
 
+            if input.key_pressed(egui::Key::Q) {
+                ui.ctx().send_viewport_cmd(egui::ViewportCommand::Close);
+            }
+
+            if input.key_pressed(egui::Key::R) {
+                self.remember_choice = !self.remember_choice;
+                ctx.request_repaint();
+            }
+
             ui.horizontal(|ui| {
                 let checkbox_width = 80.0;
                 let quit_button_width = 40.0;
@@ -121,6 +130,7 @@ impl eframe::App for BrowserSelectorApp {
         });
     }
 }
+
 fn truncate_url(url: &Url) -> String {
     let url_scheme = url.scheme();
     let url_domain = url.domain().unwrap_or("");
