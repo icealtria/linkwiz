@@ -14,13 +14,13 @@ pub fn show_selector(browsers: Vec<Browser>, url: Url, tx: Sender<Choice>) {
         centered: true,
         viewport: eframe::egui::ViewportBuilder::default()
             .with_inner_size([250.0, window_height])
-            .with_resizable(false)
-            .with_decorations(false),
+            // .with_resizable(false)
+            .with_decorations(true),
         ..Default::default()
     };
 
     let _ = eframe::run_native(
-        "Select a Browser",
+        "Select Browser",
         options,
         Box::new(move |_cc| {
             Ok(Box::new(BrowserSelectorApp {
@@ -109,24 +109,24 @@ impl eframe::App for BrowserSelectorApp {
 
             ui.horizontal(|ui| {
                 let checkbox_width = 80.0;
-                let quit_button_width = 40.0;
+                // let quit_button_width = 40.0;
 
                 ui.add_sized(
                     egui::vec2(checkbox_width, 20.0),
                     egui::Checkbox::new(&mut self.remember_choice, "Remember"),
                 );
 
-                ui.add_space(250.0 - checkbox_width - quit_button_width - 25.0);
+                // ui.add_space(250.0 - checkbox_width - quit_button_width - 25.0);
 
-                if ui
-                    .add_sized(
-                        egui::vec2(quit_button_width, 20.0),
-                        egui::Button::new("Quit"),
-                    )
-                    .clicked()
-                {
-                    ui.ctx().send_viewport_cmd(egui::ViewportCommand::Close);
-                }
+                // if ui
+                //     .add_sized(
+                //         egui::vec2(quit_button_width, 20.0),
+                //         egui::Button::new("Quit"),
+                //     )
+                //     .clicked()
+                // {
+                //     ui.ctx().send_viewport_cmd(egui::ViewportCommand::Close);
+                // }
             });
         });
     }
