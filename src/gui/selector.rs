@@ -134,10 +134,41 @@ impl eframe::App for BrowserSelectorApp {
 
 fn truncate_url(url: &Url) -> String {
     let url_scheme = url.scheme();
-    let url_domain = url.domain().unwrap_or("");
+    let url_host = url.host_str().unwrap_or("");
+    let url_port = match url.port() {
+        Some(port) => format!(":{}", port),
+        None => "".to_string(),
+    };
+
     if url.path().is_empty() || url.path() == "/" {
-        format!("{}://{}/", url_scheme, url_domain)
+        format!("{}://{}{}{}", url_scheme, url_host, url_port, "/")
     } else {
-        format!("{}://{}/~", url_scheme, url_domain)
+        format!("{}://{}{}{}", url_scheme, url_host, url_port, "/~")
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_truncate_url() {
+        let urls = vec![
+            Url::parse("https://www.example.com").unwrap(),
+            Url::parse("https://www.example.com/path").unwrap(),
+            Url::parse("http://127.0.0.1:8080/").unwrap(),
+            Url::parse("http://127.0.0.1:8080/path").unwrap(),
+        ];
+
+        let expected_output = vec![
+            "https://www.example.com/",
+            "https://www.example.com/~",
+            "http://127.0.0.1:8080/",
+            "http://127.0.0.1:8080/~",
+        ];
+
+        let output: Vec<String> = urls.iter().map(|url| truncate_url(url)).collect();
+
+        assert_eq!(output, expected_output);
     }
 }
