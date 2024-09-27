@@ -11,6 +11,7 @@ pub fn show_selector(browsers: Vec<Browser>, url: Url, tx: Sender<Choice>) {
     let window_height = (browsers.len() * 30 + (browsers.len() + 2) * 3 + 50) as f32;
 
     let options = eframe::NativeOptions {
+        centered: true,
         viewport: eframe::egui::ViewportBuilder::default()
             .with_inner_size([250.0, window_height])
             .with_resizable(false)
