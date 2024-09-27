@@ -33,14 +33,24 @@ pub fn process_url(url: &str) {
         Some(browser) => {
             crate::launch::open_url_in_browser(&parsed_url.to_string(), &browser);
         }
-        None => {
-            let choice = crate::gui::open_with_selector(browsers, parsed_url.clone());
-            if let Some(choice) = choice {
-                if choice.is_remember {
-                    config.add_rules(hostname.to_string(), choice.browser.name.clone());
-                }
-                crate::launch::open_url_in_browser(&parsed_url.to_string(), &choice.browser);
+        None => match config.features.default_browser {
+            Some(default_browser) => {
+                let default_browser = browsers
+                    .iter()
+                    .find(|browser| browser.name == default_browser)
+                    .expect("Default browser not found");
+                crate::launch::open_url_in_browser(&parsed_url.to_string(), &default_browser);
             }
-        }
+            None => {
+                let choice: Option<crate::gui::Choice> =
+                    crate::gui::open_with_selector(browsers, parsed_url.clone());
+                if let Some(choice) = choice {
+                    if choice.is_remember {
+                        config.add_rules(hostname.to_string(), choice.browser.name.clone());
+                    }
+                    crate::launch::open_url_in_browser(&parsed_url.to_string(), &choice.browser);
+                }
+            }
+        },
     }
 }

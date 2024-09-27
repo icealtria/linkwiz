@@ -8,12 +8,18 @@ use std::path::{Path, PathBuf};
 pub struct Config {
     pub browsers: HashMap<String, String>,
     pub rules: RulesConfig,
+    pub features: FeaturesConfig,
 }
 
 #[derive(Serialize, Deserialize, Debug, Default)]
 pub struct RulesConfig {
     pub fnmatch: HashMap<String, String>,
     pub hostname: HashMap<String, String>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Default)]
+pub struct FeaturesConfig {
+    pub default_browser: Option<String>,
 }
 
 impl Default for Config {
@@ -24,6 +30,7 @@ impl Default for Config {
                 fnmatch: HashMap::new(),
                 hostname: HashMap::new(),
             },
+            features: FeaturesConfig::default(),
         }
     }
 }
