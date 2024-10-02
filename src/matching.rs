@@ -1,4 +1,5 @@
-use crate::{browsers::Browser, config::RulesConfig};
+use crate::config::RulesConfig;
+use find_browsers::Browser;
 use wildmatch::WildMatch;
 
 pub fn match_hostname(

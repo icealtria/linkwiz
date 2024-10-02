@@ -1,6 +1,6 @@
 use std::process::{Command, Stdio};
 
-use crate::browsers::Browser;
+use find_browsers::Browser;
 
 #[cfg(target_os = "windows")]
 use std::os::windows::process::CommandExt;

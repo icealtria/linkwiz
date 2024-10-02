@@ -1,8 +1,8 @@
 use crate::{
-    browsers::{self, Browser},
     config::Config,
     matching, utils::hostname_port_from_url,
 };
+use find_browsers::{get_browsers, Browser};
 use url::Url;
 
 pub fn process_url(url: &str) {
@@ -14,7 +14,7 @@ pub fn process_url(url: &str) {
 
     let mut config = Config::new();
 
-    let mut browsers = browsers::get_browsers();
+    let mut browsers = get_browsers().unwrap();
 
     let conf_browsers = config
         .browsers

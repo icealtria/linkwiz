@@ -3,8 +3,8 @@ pub struct Choice {
     pub is_remember: bool,
 }
 
-use crate::browsers::Browser;
 use std::sync::mpsc;
+use find_browsers::Browser;
 use url::Url;
 
 pub mod selector;

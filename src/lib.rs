@@ -1,4 +1,3 @@
-mod browsers;
 mod config;
 pub mod core;
 mod gui;

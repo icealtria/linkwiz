@@ -1153,6 +1153,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "find_browsers"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "84b0a14488cb4f1aac3ab7ce5fa10965c8b7a066a780324c3fd5b6228c626c09"
+dependencies = [
+ "dirs",
+ "winreg",
+]
+
+[[package]]
 name = "flate2"
 version = "1.0.33"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1669,11 +1679,11 @@ dependencies = [
  "dirs",
  "eframe",
  "egui",
+ "find_browsers",
  "serde",
  "toml",
  "url",
  "wildmatch",
- "winreg",
 ]
 
 [[package]]
