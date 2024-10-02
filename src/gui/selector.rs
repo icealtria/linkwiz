@@ -1,5 +1,5 @@
 use super::Choice;
-use crate::browsers::Browser;
+use crate::{browsers::Browser, utils::hostname_port_from_url};
 use eframe::egui;
 use std::sync::mpsc::Sender;
 use url::Url;
@@ -134,16 +134,12 @@ impl eframe::App for BrowserSelectorApp {
 
 fn truncate_url(url: &Url) -> String {
     let url_scheme = url.scheme();
-    let url_host = url.host_str().unwrap_or("");
-    let url_port = match url.port() {
-        Some(port) => format!(":{}", port),
-        None => "".to_string(),
-    };
+    let host_port = hostname_port_from_url(url);
 
     if url.path().is_empty() || url.path() == "/" {
-        format!("{}://{}{}{}", url_scheme, url_host, url_port, "/")
+        format!("{}://{}{}", url_scheme, host_port, "/")
     } else {
-        format!("{}://{}{}{}", url_scheme, url_host, url_port, "/~")
+        format!("{}://{}{}", url_scheme, host_port, "/~")
     }
 }
 

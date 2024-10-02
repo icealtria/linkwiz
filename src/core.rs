@@ -1,7 +1,7 @@
 use crate::{
     browsers::{self, Browser},
     config::Config,
-    matching,
+    matching, utils::hostname_port_from_url,
 };
 use url::Url;
 
@@ -27,7 +27,7 @@ pub fn process_url(url: &str) {
 
     browsers.extend(conf_browsers);
 
-    let hostname = parsed_url.host_str().expect("Invalid URL.");
+    let hostname = hostname_port_from_url(&parsed_url);
 
     match matching::match_hostname(&browsers, &hostname, &config.rules) {
         Some(browser) => {
