@@ -1,0 +1,19 @@
+pkgname=linkwiz
+pkgdesc="A tool that lets users select their preferred browser for opening links."
+pkgver=0.4.0
+pkgrel=1
+arch=('x86_64')
+url="https://github.com/icealtria/linkwiz"
+license=('GPL2')
+depends=()
+source=("file:///`pwd`/../target/release/linkwiz-rs"
+        "file:///`pwd`/../Linkwiz.desktop"
+        )
+sha256sums=('SKIP'
+            'SKIP')
+
+package() {
+    ls -al
+    install -Dm755 linkwiz-rs "$pkgdir/usr/bin/$pkgname"
+    install -Dm644 Linkwiz.desktop "$pkgdir/usr/share/applications/$pkgname.desktop"
+}
