@@ -1,7 +1,4 @@
-use crate::{
-    config::Config,
-    matching, utils::hostname_port_from_url,
-};
+use crate::{config::Config, matching, utils::hostname_port_from_url};
 use find_browsers::{get_browsers, Browser};
 use url::Url;
 
@@ -16,7 +13,9 @@ pub fn process_url(url: &str) {
 
     let mut browsers = get_browsers().unwrap();
 
-    let conf_browsers = config
+    browsers = remove_self(browsers);
+
+    let conf_browsers: Vec<Browser> = config
         .browsers
         .iter()
         .map(|(name, exec)| Browser {
@@ -53,4 +52,12 @@ pub fn process_url(url: &str) {
             }
         },
     }
+}
+
+fn remove_self(browsers: Vec<Browser>) -> Vec<Browser> {
+    browsers
+        .iter()
+        .filter(|browser| browser.name.to_lowercase() != "linkwiz")
+        .cloned()
+        .collect()
 }
