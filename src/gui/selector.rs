@@ -10,11 +10,17 @@ pub fn show_selector(browsers: Vec<Browser>, url: Url, tx: Sender<Choice>) {
     browsers.sort_by(|a, b| a.name.to_lowercase().cmp(&b.name.to_lowercase()));
 
     let window_height = (browsers.len() * 30 + (browsers.len() + 2) * 3 + 50) as f32;
+    let window_width = browsers
+        .iter()
+        .max_by(|a, b| a.name.len().cmp(&b.name.len()))
+        .map(|b| b.name.len() as f32 * 7.0)
+        .unwrap_or(240.0)
+        + 25.0;
 
     let options = eframe::NativeOptions {
         centered: true,
         viewport: eframe::egui::ViewportBuilder::default()
-            .with_inner_size([250.0, window_height])
+            .with_inner_size([window_width, window_height])
             // .with_resizable(false)
             .with_decorations(true),
         ..Default::default()
