@@ -54,7 +54,7 @@ impl eframe::App for BrowserSelectorApp {
             let truncated_url = truncate_url(&self.url);
 
             ui.horizontal(|ui| {
-                ui.label(egui::RichText::new(&truncated_url))
+                ui.add(egui::Label::new(&truncated_url).wrap())
                     .on_hover_text(self.url.to_string());
             });
 
