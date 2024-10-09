@@ -27,7 +27,7 @@ pub fn show_selector(browsers: Vec<Browser>, url: Url, tx: Sender<Choice>) {
     };
 
     let _ = eframe::run_native(
-        "Select Browser",
+        "Select",
         options,
         Box::new(move |_cc| {
             Ok(Box::new(BrowserSelectorApp {
