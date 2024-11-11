@@ -25,7 +25,7 @@ pub fn open_url_in_browser(url: &str, browser: &Browser) {
     {
         Command::new("sh")
             .arg("-c")
-            .arg(format!("{} {}", trimmed_exec, encoded_url))
+            .arg(format!("{} {}", exec_path, encoded_url))
             .stdout(Stdio::null())
             .stderr(Stdio::null())
             .spawn()
