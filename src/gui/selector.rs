@@ -1,7 +1,6 @@
 use super::Choice;
-use crate::utils::hostname_port_from_url;
+use crate::{core::Browser, utils::hostname_port_from_url};
 use eframe::egui;
-use find_browsers::Browser;
 use std::sync::mpsc::Sender;
 use url::Url;
 

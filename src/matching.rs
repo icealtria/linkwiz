@@ -1,5 +1,4 @@
-use crate::config::RulesConfig;
-use find_browsers::Browser;
+use crate::{config::RulesConfig, core::Browser};
 use wildmatch::WildMatch;
 
 pub fn match_hostname(
@@ -28,21 +27,20 @@ pub fn match_hostname(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::{collections::HashMap, path::PathBuf};
+    use std::collections::HashMap;
 
     #[test]
     fn test_match_url() {
         let browsers = vec![
             Browser {
                 name: "Firefox".to_string(),
-                exec: PathBuf::from("C:\\Program Files\\Mozilla Firefox\\firefox.exe"),
+                exec: vec!["C:\\Program Files\\Mozilla Firefox\\firefox.exe".to_string()],
             },
             Browser {
                 name: "Chrome".to_string(),
-                exec: PathBuf::from("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"),
+                exec: vec!["C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe".to_string()],
             },
         ];
-
         let config = RulesConfig {
             hostname: HashMap::new(),
             fnmatch: HashMap::from([

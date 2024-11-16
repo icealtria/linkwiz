@@ -4,8 +4,9 @@ pub struct Choice {
 }
 
 use std::sync::mpsc;
-use find_browsers::Browser;
 use url::Url;
+
+use crate::core::Browser;
 
 pub mod selector;
 

@@ -1,6 +1,13 @@
 use crate::{config::Config, matching, utils::hostname_port_from_url};
-use find_browsers::{get_browsers, Browser};
+use find_browsers::get_browsers;
+use serde::{Deserialize, Serialize};
 use url::Url;
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Browser {
+    pub name: String,
+    pub exec: Vec<String>,
+}
 
 pub fn process_url(url: &str) {
     let parsed_url = Url::parse(url).expect("Invalid URL");
@@ -11,7 +18,17 @@ pub fn process_url(url: &str) {
 
     let mut config = Config::new();
 
-    let mut browsers = get_browsers().unwrap();
+    let mut browsers = get_browsers()
+        .unwrap()
+        .iter()
+        .map(|browser| {
+            let exec: Vec<String> = vec![browser.exec.display().to_string()];
+            Browser {
+                name: browser.name.clone(),
+                exec,
+            }
+        })
+        .collect::<Vec<Browser>>();
 
     browsers = remove_self(browsers);
 

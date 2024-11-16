@@ -6,7 +6,7 @@ use std::path::{Path, PathBuf};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Config {
-    pub browsers: HashMap<String, String>,
+    pub browsers: HashMap<String, Vec<String>>,
     pub rules: RulesConfig,
     pub features: FeaturesConfig,
 }
