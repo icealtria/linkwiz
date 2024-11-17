@@ -1,11 +1,11 @@
 use eframe::{self, egui};
 
-pub fn show_error(message: String) {
+pub fn show_error(message: &str) {
+    let message = message.to_string();
     let native_options = eframe::NativeOptions {
         centered: true,
         viewport: eframe::egui::ViewportBuilder::default()
-            .with_inner_size([300.0, 100.0])
-            .with_resizable(false)
+            .with_inner_size([200.0, 80.0])
             .with_decorations(true),
         ..Default::default()
     };
@@ -13,19 +13,13 @@ pub fn show_error(message: String) {
     eframe::run_native(
         "Error",
         native_options,
-        Box::new(|_cc| Ok(Box::new(ErrorWindow::new(message)))),
+        Box::new(|_cc| Ok(Box::new(ErrorWindow { message }))),
     )
     .ok();
 }
 
 struct ErrorWindow {
     message: String,
-}
-
-impl ErrorWindow {
-    fn new(message: String) -> Self {
-        Self { message }
-    }
 }
 
 impl eframe::App for ErrorWindow {

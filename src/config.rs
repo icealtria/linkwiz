@@ -36,26 +36,26 @@ impl Default for Config {
 }
 
 impl Config {
-    pub fn new() -> Self {
+    pub fn new() -> Result<Self, Box<dyn std::error::Error>> {
         let config_path = Self::config_path();
         if config_path.exists() {
-            let config_data = fs::read_to_string(&config_path).expect("Failed to read config file");
-            toml::from_str(&config_data).expect("Failed to parse config file")
+            let config_data = fs::read_to_string(&config_path)?;
+            Ok(toml::from_str(&config_data)?)
         } else {
             let config = Config::default();
-            config.save(&config_path);
-            config
+            config.save(&config_path)?;
+            Ok(config)
         }
     }
 
-    fn save(&self, config_path: &Path) {
-        println!("Saving config to: {}", config_path.display());
-        let toml_data = toml::to_string(&self).expect("Failed to serialize config");
+    fn save(&self, config_path: &Path) -> Result<(), Box<dyn std::error::Error>> {
+        let toml_data = toml::to_string(&self)?;
         let config_dir = config_path.parent().unwrap();
         if !config_dir.exists() {
-            fs::create_dir_all(config_dir).expect("Failed to create config directory");
+            fs::create_dir_all(config_dir)?;
         }
-        fs::write(config_path, toml_data).expect("Failed to write config file");
+        fs::write(config_path, toml_data)?;
+        Ok(())
     }
 
     fn config_path() -> PathBuf {
@@ -65,8 +65,9 @@ impl Config {
         path
     }
 
-    pub fn add_rules(&mut self, hostname: String, browser_name: String) {
+    pub fn add_rules(&mut self, hostname: String, browser_name: String) -> Result<(), Box<dyn std::error::Error>> {
         self.rules.hostname.insert(hostname, browser_name);
-        self.save(&Self::config_path());
+        self.save(&Self::config_path())?;
+        Ok(())
     }
 }

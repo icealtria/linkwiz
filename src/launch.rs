@@ -1,7 +1,7 @@
 use crate::core::Browser;
 use std::process::{Command, Stdio};
 
-pub fn open_url_in_browser(url: &str, browser: &Browser) {
+pub fn open_url_in_browser(url: &str, browser: &Browser) -> Result<(), Box<dyn std::error::Error>> {
     let mut args = browser.exec.clone();
     args.push(url.to_string());
 
@@ -13,6 +13,7 @@ pub fn open_url_in_browser(url: &str, browser: &Browser) {
             .stderr(Stdio::null())
             .spawn()
             .expect("Failed to open URL in browser");
+        Ok(())
     }
 
     #[cfg(not(any(target_os = "windows", target_os = "linux")))]

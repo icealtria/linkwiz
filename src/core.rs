@@ -10,16 +10,23 @@ pub struct Browser {
 }
 
 pub fn process_url(url: &str) {
-    let parsed_url = Url::parse(url).expect("Invalid URL");
+    match try_process_url(url) {
+        Ok(_) => {}
+        Err(e) => crate::gui::error::show_error(&e.to_string()),
+    }
+}
+
+fn try_process_url(url: &str) -> Result<(), Box<dyn std::error::Error>> {
+    let parsed_url = Url::parse(url)?;
 
     if !["http", "https"].contains(&parsed_url.scheme()) {
-        panic!("Invalid URL scheme.");
+        return Err("Invalid URL scheme".into());
     }
 
-    let mut config = Config::new();
+    let mut config = Config::new()?;
 
-    let mut browsers = get_browsers()
-        .unwrap()
+    let browsers = get_browsers().map_err(|e| format!("Failed to get browsers: {}", e))?;
+    let mut browsers = browsers
         .iter()
         .map(|browser| {
             let exec: Vec<String> = vec![browser.exec.display().to_string()];
@@ -46,29 +53,30 @@ pub fn process_url(url: &str) {
     let hostname = hostname_port_from_url(&parsed_url);
 
     match matching::match_hostname(&browsers, &hostname, &config.rules) {
-        Some(browser) => {
-            crate::launch::open_url_in_browser(&parsed_url.to_string(), &browser);
-        }
+        Some(browser) => crate::launch::open_url_in_browser(&parsed_url.to_string(), &browser)?,
         None => match config.features.default_browser {
             Some(default_browser) => {
                 let default_browser = browsers
                     .iter()
                     .find(|browser| browser.name == default_browser)
-                    .expect("Default browser not found");
-                crate::launch::open_url_in_browser(&parsed_url.to_string(), &default_browser);
+                    .ok_or("Default browser not found")?;
+                crate::launch::open_url_in_browser(&parsed_url.to_string(), &default_browser)?
             }
             None => {
                 let choice: Option<crate::gui::Choice> =
                     crate::gui::open_with_selector(browsers, parsed_url.clone());
                 if let Some(choice) = choice {
                     if choice.is_remember {
-                        config.add_rules(hostname.to_string(), choice.browser.name.clone());
+                        config.add_rules(hostname.to_string(), choice.browser.name.clone())?;
                     }
-                    crate::launch::open_url_in_browser(&parsed_url.to_string(), &choice.browser);
+                    crate::launch::open_url_in_browser(&parsed_url.to_string(), &choice.browser)?;
+                } else {
+                    return Err("No browser selected".into());
                 }
             }
         },
     }
+    Ok(())
 }
 
 fn remove_self(browsers: Vec<Browser>) -> Vec<Browser> {
