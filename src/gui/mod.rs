@@ -20,3 +20,5 @@ pub fn open_with_selector(browsers: Vec<Browser>, url: Url) -> Option<Choice> {
         Err(_) => None,
     }
 }
+
+pub mod error;
