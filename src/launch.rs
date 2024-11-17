@@ -1,7 +1,6 @@
 use crate::core::Browser;
 use std::process::{Command, Stdio};
 
-#[cfg(target_os = "windows")]
 
 pub fn open_url_in_browser(url: &str, browser: &Browser) {
     let mut args = browser.exec.clone();
