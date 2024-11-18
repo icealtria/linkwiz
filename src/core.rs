@@ -71,7 +71,7 @@ fn try_process_url(url: &str) -> Result<(), Box<dyn std::error::Error>> {
                     }
                     crate::launch::open_url_in_browser(&parsed_url.to_string(), &choice.browser)?;
                 } else {
-                    return Err("No browser selected".into());
+                    println!("No browser selected")
                 }
             }
         },
