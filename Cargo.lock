@@ -1148,9 +1148,9 @@ dependencies = [
 
 [[package]]
 name = "find_browsers"
-version = "0.1.2"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "df34ad7f7df774a7ff3dc76318cea3024ac3bec6a41d9c55e56bc6c12fa1d71e"
+checksum = "7ce89ae15298e2b0ae288b28b04adf832469659cf8907d54b81b2c918cb94778"
 dependencies = [
  "dirs",
  "winreg",

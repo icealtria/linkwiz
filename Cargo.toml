@@ -11,7 +11,7 @@ toml = "0.8.19"
 wildmatch = "2.3.4"
 egui = "0.28.1"
 eframe = "0.28.1"
-find_browsers = "0.1.2"
+find_browsers = "0.2.0"
 
 [profile.dev]
 debug = 1

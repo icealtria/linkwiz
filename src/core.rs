@@ -1,5 +1,5 @@
 use crate::{config::Config, matching, utils::hostname_port_from_url};
-use find_browsers::get_browsers;
+use find_browsers::get_executable_browsers;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -25,7 +25,7 @@ fn try_process_url(url: &str) -> Result<(), Box<dyn std::error::Error>> {
 
     let mut config = Config::new()?;
 
-    let browsers = get_browsers().map_err(|e| format!("Failed to get browsers: {}", e))?;
+    let browsers = get_executable_browsers().map_err(|e| format!("Failed to get browsers: {}", e))?;
     let mut browsers = browsers
         .iter()
         .map(|browser| {

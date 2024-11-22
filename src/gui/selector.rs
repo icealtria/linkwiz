@@ -12,8 +12,9 @@ pub fn show_selector(browsers: Vec<Browser>, url: Url, tx: Sender<Choice>) {
     let window_width = browsers
         .iter()
         .max_by(|a, b| a.name.len().cmp(&b.name.len()))
-        .map(|b| b.name.len() as f32 * 7.0)
-        .unwrap_or(240.0)
+        .map(|b| b.name.len() as f32 * 8.0)
+        .unwrap()
+        .max(100.0)
         + 25.0;
 
     let options = eframe::NativeOptions {
