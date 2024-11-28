@@ -36,26 +36,54 @@ pub fn show_selector(browsers: Vec<Browser>, url: Url, tx: Sender<Choice>) {
                 url,
                 remember_choice: false,
                 tx,
+                copy_notification_time: None,
             }))
         }),
     );
 }
+
 struct BrowserSelectorApp {
     browsers: Vec<Browser>,
     selected_browser: Option<Browser>,
     url: Url,
     remember_choice: bool,
     tx: Sender<Choice>,
+    copy_notification_time: Option<f64>,
 }
 
 impl eframe::App for BrowserSelectorApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        if let Some(time) = self.copy_notification_time {
+            if ctx.input(|i| i.time) > time + 1.0 {
+                self.copy_notification_time = None;
+            }
+        }
+
         egui::CentralPanel::default().show(ctx, |ui| {
             let truncated_url = truncate_url(&self.url);
 
             ui.horizontal(|ui| {
-                ui.add(egui::Label::new(&truncated_url).wrap())
+                let display_text = if let Some(copy_time) = self.copy_notification_time {
+                    let current_time = ctx.input(|i| i.time);
+                    if current_time - copy_time <= 1.0 {
+                        "copied".to_string()
+                    } else {
+                        self.copy_notification_time = None;
+                        truncated_url
+                    }
+                } else {
+                    truncated_url
+                };
+
+                let label_resp = ui
+                    .add(egui::Label::new(&display_text).wrap())
                     .on_hover_text(self.url.to_string());
+
+                if label_resp.clicked() {
+                    ui.output_mut(|o| o.copied_text = self.url.to_string());
+                    self.copy_notification_time = Some(ctx.input(|i| i.time));
+                }
+
             });
 
             let button_width = ui.available_width();
