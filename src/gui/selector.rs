@@ -75,15 +75,17 @@ impl eframe::App for BrowserSelectorApp {
                     truncated_url
                 };
 
-                let label_resp = ui
-                    .add(egui::Label::new(&display_text).wrap())
-                    .on_hover_text(self.url.to_string());
+                let label_resp = ui.add(egui::Label::new(&display_text).wrap());
 
                 if label_resp.clicked() {
                     ui.output_mut(|o| o.copied_text = self.url.to_string());
                     self.copy_notification_time = Some(ctx.input(|i| i.time));
                 }
 
+                label_resp.on_hover_ui(|ui| {
+                    ui.style_mut().interaction.selectable_labels = false;
+                    ui.label(&self.url.to_string());
+                });
             });
 
             let button_width = ui.available_width();
